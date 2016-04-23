@@ -16,6 +16,14 @@ define("ACTION_UPDATE_USER", 66);
 define("ACTION_DELETE_USER", 77);
 define("ACTION_SEARCH_USERS", 88);
 
+/* actions for the MOVES REST resource */
+define("ACTION_GET_MOVE", 33);
+define("ACTION_GET_MOVES", 44);
+define("ACTION_CREATE_MOVE", 55);
+define("ACTION_UPDATE_MOVE", 66);
+define("ACTION_DELETE_MOVE", 77);
+define("ACTION_SEARCH_MOVES", 88);
+
 /* HTTP status codes 2xx*/
 define("HTTPSTATUS_OK", 200);
 define("HTTPSTATUS_CREATED", 201);

@@ -53,7 +53,7 @@ class UserController {
 			$this->model->apiResponse = $Message;
 		}
 	}
-	
+
 	private function getUser($userID) {
 		$answer = $this->model->getUser ( $userID );
 		if ($answer != null) {
