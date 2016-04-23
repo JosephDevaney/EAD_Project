@@ -72,6 +72,34 @@ $app->map ( "/search/:string", "authenticate", function ($string = null) use($ap
 	return new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $parameters );
 } )->via ( "GET" );
 
+$app->map ( "/pokemon(/:id)", "authenticate", function ($pokemonID = null) use($app) {
+	$httpMethod = $app->request->getMethod ();
+	$action = null;
+	$parameters ["id"] = $pokemonID; // prepare parameters to be passed to the controller (example: ID)
+
+	if (($pokemonID == null) or is_numeric ( $pokemonID )) {
+		switch ($httpMethod) {
+			case "GET" :
+				if ($pokemonID != null)
+					$action = ACTION_GET_POKEMON;
+				else
+					$action = ACTION_GET_ALL_POKEMON;
+				break;
+			case "POST" :
+				$action = ACTION_CREATE_POKEMON;
+				break;
+			case "PUT" :
+				$action = ACTION_UPDATE_POKEMON;
+				break;
+			case "DELETE" :
+				$action = ACTION_DELETE_POKEMON;
+				break;
+			default :
+		}
+	}
+	return new loadRunMVCComponents ( "PokemonModel", "PokemonController", "jsonView", $action, $app, $parameters );
+} )->via ( "GET", "POST", "PUT", "DELETE" );
+
 $app->map ( "/moves(/:id)", "authenticate", function ($moveID = null) use($app) {
     $httpMethod = $app->request->getMethod ();
     $action = null;
