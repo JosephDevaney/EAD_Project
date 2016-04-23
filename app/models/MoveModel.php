@@ -37,9 +37,9 @@ class MovesModel {
              */
 
             if (($this->validationSuite->isLengthStringValid ( $newMove ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
-                ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
-                ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
-                ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
                 if ($newId = $this->MovesDAODAO->insert ( $newMove ))
                     return ($newId);
             }
@@ -49,50 +49,41 @@ class MovesModel {
         return (false);
     }
     public function updateUsers($moveID, $newMoveRepresentation) {
-        var_dump($newMoveRepresentation);
-        if (! empty ( $newMoveRepresentation ["name"] ) && ! empty ( $newMoveRepresentation ["surname"] ) && ! empty ( $newMoveRepresentation ["email"] ) && ! empty ( $newMoveRepresentation ["password"] )) {
+        // compulsory values
+        if (! empty ( $newMove ["move_name"] ) && ! empty ( $newMove ["accuracy"] ) && ! empty ( $newMove ["pp"] ) && ! empty ( $newMove ["power"] )) {
             /*
-             * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
+             * the model knows the representation of a move in the database: move_name: varchar(30) accuracy: int(11) pp: int(11) power: int(11)
              */
-            var_dump($newMoveRepresentation);
 
-            if (($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
-                ($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
-                ($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["email"], TABLE_USER_EMAIL_LENGTH )) &&
-                ($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
-                if ($moveID = $this->UsersDAO->update( $newMoveRepresentation, $moveID ))
-                    var_dump($moveID);
-                return ($moveID);
+            if (($this->validationSuite->isLengthStringValid ( $newMove ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
+                if ($moveID = $this->MovesDAO->update( $newMoveRepresentation, $moveID ))
+                    return ($moveID);
             }
         }
 
         return (false);
     }
-    public function searchUsers($string) {
+    public function deleteUser($moveID) {
         //TODO
-        if (is_string( $string ))
-            return ($this->UsersDAO->search( $string ));
-
-        return false;
-    }
-    public function searchUsername($string) {
-        //TODO
-        if (is_string( $string ))
-            return ($this->UsersDAO->searchUsername( $string ));
-
-        return false;
-    }
-    public function deleteUser($userID) {
-        //TODO
-        if ($userID != null) {
-            if ($id = $this->UsersDAO->delete($userID)) {
+        if ($moveID != null) {
+            if ($id = $this->MovesDAO->delete($moveID)) {
                 return ($id);
             }
         }
         return (false);
     }
+    public function searchMoves($string) {
+        //TODO
+        if (is_string( $string ))
+            return ($this->MovesDAO->search( $string ));
+
+        return false;
+    }
     public function __destruct() {
-        $this->UsersDAO = null;
+        $this->MovesDAO = null;
         $this->dbmanager->closeConnection ();
     }
 }
