@@ -9,6 +9,10 @@ require_once "conf/config.inc.php";
 function authenticate(\Slim\Route $route) {
 	$app = \Slim\Slim::getInstance();
 	require_once "models/UserModel.php";
+
+    $httpMethod = $app->request->getMethod ();
+    if($httpMethod == 'GET' || $httpMethod == 'POST')
+        return true;
 	
 	$header = $app->request->headers();
 	$name = $header["username"];
@@ -25,6 +29,14 @@ function authenticate(\Slim\Route $route) {
 		}
 	}
 	$app->halt(401);
+}
+
+function responseFormat($app){
+    $headers = $app->request->headers();
+    $responseFormat  = "jsonView";
+    if($headers['Response-Type'] == 'application/xml')
+        $responseFormat = "xmlView";
+    return $responseFormat;
 }
 
 $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) {
@@ -52,23 +64,32 @@ $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) 
 			default :
 		}
 	}
-	return new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $parameters );
+
+    $responseFormat = responseFormat($app);
+
+	return new loadRunMVCComponents ( "UserModel", "UserController", $responseFormat, $action, $app, $parameters );
 } )->via ( "GET", "POST", "PUT", "DELETE" );
 
-$app->map ( "/search/:string", "authenticate", function ($string = null) use($app) {
+$app->map ( "/search/:entity/:searchString", function ($entity = null,$searchString = null) use($app) {
 
 	$httpMethod = $app->request->getMethod ();
 	$action = null;
-	$parameters ["SearchingString"] = $string; // prepare parameters to be passed to the controller (example: ID)
+	$parameters ["SearchingString"] = $searchString; // prepare parameters to be passed to the controller (example: ID)
 
-	if (is_string( $string )) {
-		switch ($httpMethod) {
-			case "GET" :
-				$action = ACTION_SEARCH_USERS;
-				break;
-			default :
+	if ($httpMethod == "GET" && is_string( $searchString ) && is_string( $entity )) {
+        switch ($entity) {
+            case "pokemon" :
+                $action = ACTION_SEARCH_POKEMON;
+                break;
+            case "move" :
+                $action = ACTION_SEARCH_MOVES;
+                break;
+            default :
 		}
 	}
+
+    $responseFormat = responseFormat($app);
+
 	return new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $parameters );
 } )->via ( "GET" );
 
@@ -97,6 +118,9 @@ $app->map ( "/pokemon(/:id)", "authenticate", function ($pokemonID = null) use($
 			default :
 		}
 	}
+
+    $responseFormat = responseFormat($app);
+
 	return new loadRunMVCComponents ( "PokemonModel", "PokemonController", "jsonView", $action, $app, $parameters );
 } )->via ( "GET", "POST", "PUT", "DELETE" );
 
@@ -125,6 +149,9 @@ $app->map ( "/moves(/:id)", "authenticate", function ($moveID = null) use($app) 
             default :
         }
     }
+
+    $responseFormat = responseFormat($app);
+
     return new loadRunMVCComponents ( "MoveModel", "MoveController", "jsonView", $action, $app, $parameters );
 } )->via ( "GET", "POST", "PUT", "DELETE" );
 

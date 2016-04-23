@@ -9,17 +9,11 @@ class xmlView
         $this->slimApp = $slimApp;
     }
 
-    public function output(){
-        //prepare json response
-        $xmlResponse = xml_encode($this->model->apiResponse);
-        $this->slimApp->response->write($xmlResponse);
-    }
-
     private function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
         if (is_null($DOMDocument)) {
             $DOMDocument =new DOMDocument;
             $DOMDocument->formatOutput = true;
-            xml_encode($mixed, $DOMDocument, $DOMDocument);
+            $this->xml_encode($mixed, $DOMDocument, $DOMDocument);
             echo $DOMDocument->saveXML();
         }
         else {
@@ -49,7 +43,7 @@ class xmlView
                         }
                     }
 
-                    xml_encode($mixedElement, $node, $DOMDocument);
+                    $this->xml_encode($mixedElement, $node, $DOMDocument);
                 }
             }
             else {
@@ -58,5 +52,12 @@ class xmlView
             }
         }
     }
+
+    public function output(){
+        //prepare json response
+        $xmlResponse = $this->xml_encode($this->model->apiResponse);
+        $this->slimApp->response->write($xmlResponse);
+    }
+
 }
 ?>
