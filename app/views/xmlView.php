@@ -24,29 +24,27 @@ class xmlView
                 $mixed = get_object_vars($mixed);
             }
             if (is_array($mixed)) {
-                if(array_key_exists(0, $mixed) && is_array($mixed[0]) && array_key_exists('id',$mixed[0])){
+                if(array_key_exists('id',$mixed)){
                     $elem = $DOMDocument->createElement('element');
-                    $elem->setAttribute("id", array_shift($mixed[0]));
+                    $elem->setAttribute("id", array_shift($mixed));
                     $DOMDocument->appendChild($elem);
                 }
                 foreach ($mixed as $index => $mixedElement) {
                     if (is_int($index)) {
                         if ($index === 0) {
                             $node = $domElement;
-                        }
-                        else {
-                            if(property_exists($domElement, "tagName")){
+                        } else {
+                            if (property_exists($domElement, "tagName")) {
                                 $node = $DOMDocument->createElement($domElement->tagName);
-                                if($elem != null)
+                                if ($elem != null)
                                     $elem->appendChild($node);
                                 else
                                     $domElement->parentNode->appendChild($node);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         $plural = $DOMDocument->createElement($index);
-                        if($elem != null)
+                        if ($elem != null)
                             $elem->appendChild($plural);
                         else
                             $domElement->appendChild($plural);
