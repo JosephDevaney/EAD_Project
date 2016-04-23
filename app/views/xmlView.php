@@ -28,8 +28,10 @@ class xmlView
                             $node = $domElement;
                         }
                         else {
-                            $node = $DOMDocument->createElement($domElement->tagName);
-                            $domElement->parentNode->appendChild($node);
+                            if(property_exists($domElement, "tagName")){
+                                $node = $DOMDocument->createElement($domElement->tagName);
+                                $domElement->parentNode->appendChild($node);
+                            }
                         }
                     }
                     else {
@@ -54,7 +56,7 @@ class xmlView
     }
 
     public function output(){
-        //prepare json response
+        //prepare xml response
         $xmlResponse = $this->xml_encode($this->model->apiResponse);
         $this->slimApp->response->write($xmlResponse);
     }
