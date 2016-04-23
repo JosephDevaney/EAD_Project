@@ -22,10 +22,12 @@ class UserModel {
 		
 		return false;
 	}
+
 	/**
 	 *
-	 * @param array $UserRepresentation:
-	 *        	an associative array containing the detail of the new user
+	 * @param array $UserRepresentation :
+	 *            an associative array containing the detail of the new user
+	 * @return bool
 	 */
 	public function createNewUser($newUser) {
 		// validation of the values of the new user
