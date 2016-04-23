@@ -10,7 +10,18 @@ CREATE TABLE `users` (
 
 
 --Pokemon
-CREATE TABLE `ead_project`.`pokemon` ( `id` INT UNSIGNED NOT NULL COMMENT 'Usual Pokemon ID. 1: Bulbasaur etc' , `name` VARCHAR(30) NOT NULL , `height` INT NOT NULL , `weight` INT NOT NULL , `move1_id` INT NOT NULL , `move2_id` INT NOT NULL , `move3_id` INT NOT NULL , `move4_id` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `pokemon` (
+ `id` int(10) unsigned NOT NULL COMMENT 'Usual Pokemon ID. 1: Bulbasaur etc',
+ `name` varchar(30) NOT NULL,
+ `height` int(11) NOT NULL,
+ `weight` int(11) NOT NULL,
+ `hp` int(11) NOT NULL,
+ `move1_id` int(11) NOT NULL,
+ `move2_id` int(11) DEFAULT NULL,
+ `move3_id` int(11) DEFAULT NULL,
+ `move4_id` int(11) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 --Moves
 CREATE TABLE `ead_project`.`moves` ( `move_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `move_name` VARCHAR(30) NOT NULL , `accuracy` INT NOT NULL , `pp` INT NOT NULL , `power` INT NOT NULL , PRIMARY KEY (`move_id`)) ENGINE = InnoDB;
