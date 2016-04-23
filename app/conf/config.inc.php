@@ -18,7 +18,7 @@ define("ACTION_SEARCH_USERS", 188);
 
 /* actions for the POKEMON REST resource */
 define("ACTION_GET_POKEMON", 233);
-define("ACTION_GET_POKEMON", 244);
+define("ACTION_GET_ALL_POKEMON", 244);
 define("ACTION_CREATE_POKEMON", 255);
 define("ACTION_UPDATE_POKEMON", 266);
 define("ACTION_DELETE_POKEMON", 277);
