@@ -34,7 +34,7 @@ function authenticate(\Slim\Route $route) {
 function responseFormat($app){
     $headers = $app->request->headers();
     $responseFormat  = "jsonView";
-    if($headers['Response-Type'] == 'application/xml')
+    if($headers['Accept'] == 'application/xml')
         $responseFormat = "xmlView";
     return $responseFormat;
 }

@@ -10,6 +10,7 @@ class xmlView
     }
 
     private function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
+        //var_dump($mixed);
         if (is_null($DOMDocument)) {
             $DOMDocument =new DOMDocument;
             $DOMDocument->formatOutput = true;
