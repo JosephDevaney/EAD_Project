@@ -13,10 +13,10 @@ class MovesModel {
         $this->dbmanager->openConnection ();
         $this->validationSuite = new Validation ();
     }
-    public function getUsers() {
+    public function getMoves() {
         return ($this->MovesDAO->get ());
     }
-    public function getUser($userID) {
+    public function getMove($userID) {
         if (is_numeric ( $userID ))
             return ($this->MovesDAO->get ( $userID ));
 
@@ -48,7 +48,7 @@ class MovesModel {
         // if validation fails or insertion fails
         return (false);
     }
-    public function updateUsers($moveID, $newMoveRepresentation) {
+    public function updateMove($moveID, $newMoveRepresentation) {
         // compulsory values
         if (! empty ( $newMove ["move_name"] ) && ! empty ( $newMove ["accuracy"] ) && ! empty ( $newMove ["pp"] ) && ! empty ( $newMove ["power"] )) {
             /*
@@ -66,7 +66,7 @@ class MovesModel {
 
         return (false);
     }
-    public function deleteUser($moveID) {
+    public function deleteMove($moveID) {
         //TODO
         if ($moveID != null) {
             if ($id = $this->MovesDAO->delete($moveID)) {

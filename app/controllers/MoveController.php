@@ -3,33 +3,33 @@ class MoveController {
     private $slimApp;
     private $model;
     private $requestBody;
-    public function __construct($model, $action = null, $slimApp, $parameteres = null) {
+    public function __construct($model, $action = null, $slimApp, $parameters = null) {
         $this->model = $model;
         $this->slimApp = $slimApp;
-        $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true ); // this must contain the representation of the new user
+        $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true ); // this must contain the representation of the new move
 
-        if (! empty ( $parameteres ["id"] ))
-            $id = $parameteres ["id"];
+        if (! empty ( $parameters ["id"] ))
+            $id = $parameters ["id"];
 
         switch ($action) {
-            case ACTION_GET_USER :
-                $this->getUser ( $id );
+            case ACTION_GET_MOVE :
+                $this->getMove( $id );
                 break;
-            case ACTION_GET_USERS :
-                $this->getUsers ();
+            case ACTION_GET_MOVES :
+                $this->getMoves();
                 break;
-            case ACTION_UPDATE_USER :
-                $this->updateUser ( $id, $this->requestBody );
+            case ACTION_UPDATE_MOVE :
+                $this->updateMove( $id, $this->requestBody );
                 break;
-            case ACTION_CREATE_USER :
-                $this->createNewUser ( $this->requestBody );
+            case ACTION_CREATE_MOVE :
+                $this->createNewMove( $this->requestBody );
                 break;
-            case ACTION_DELETE_USER :
-                $this->deleteUser ( $id );
+            case ACTION_DELETE_MOVE :
+                $this->deleteMove( $id );
                 break;
-            case ACTION_SEARCH_USERS :
-                $string = $parameteres ["SearchingString"];
-                $this->searchUsers ( $string );
+            case ACTION_SEARCH_MOVES :
+                $string = $parameters["SearchingString"];
+                $this->searchMoves ( $string );
                 break;
             case null :
                 $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
@@ -40,8 +40,8 @@ class MoveController {
                 break;
         }
     }
-    private function getUsers() {
-        $answer = $this->model->getUsers ();
+    private function getMoves() {
+        $answer = $this->model->getMoves ();
         if ($answer != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $this->model->apiResponse = $answer;
@@ -54,8 +54,8 @@ class MoveController {
         }
     }
 
-    private function getUser($userID) {
-        $answer = $this->model->getUser ( $userID );
+    private function getMove($moveID) {
+        $answer = $this->model->getMove ( $moveID );
         if ($answer != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $this->model->apiResponse = $answer;
@@ -69,8 +69,8 @@ class MoveController {
         }
     }
 
-    private function createNewUser($newUser) {
-        if ($newID = $this->model->createNewUser ( $newUser )) {
+    private function createNewMove($newMove) {
+        if ($newID = $this->model->createNewMove ( $newMove )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_CREATED,
@@ -85,13 +85,13 @@ class MoveController {
             $this->model->apiResponse = $Message;
         }
     }
-    private function deleteUser($userId) {
+    private function deleteMove($moveID) {
         //TODO
-        if ($newID = $this->model->deleteUser ( $userId )) {
+        if ($newID = $this->model->deleteMove ( $moveID )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK);
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_DELETED,
-                "id" => "$userId"
+                "id" => "$moveID"
             );
             $this->model->apiResponse = $Message;
         } else {
@@ -103,13 +103,13 @@ class MoveController {
         }
     }
 
-    private function updateUser($userID, $parameters) {
+    private function updateMove($moveID, $parameters) {
         //TODO
-        if ($userID = $this->model->updateUsers ( $userID, $parameters )) {
+        if ($moveID = $this->model->updateMove ( $moveID, $parameters )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_UPDATED,
-                "id" => "$userID"
+                "id" => "$moveID"
             );
             $this->model->apiResponse = $Message;
         } else {
@@ -120,26 +120,12 @@ class MoveController {
             $this->model->apiResponse = $Message;
         }
     }
-    private function searchUsers($string) {
+    private function searchMoves($string) {
         //TODO
-        if ($users = $this->model->searchUsers ( $string )) {
+        if ($moves = $this->model->searchMoves ( $string )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
 
-            $this->model->apiResponse = $users;
-        } else {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
-            $Message = array (
-                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
-            );
-            $this->model->apiResponse = $Message;
-        }
-    }
-    private function searchUsersByUsername($string) {
-        //TODO
-        if ($users = $this->model->searchUsername ( $string )) {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
-
-            $this->model->apiResponse = $users;
+            $this->model->apiResponse = $moves;
         } else {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
             $Message = array (

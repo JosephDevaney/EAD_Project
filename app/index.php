@@ -73,6 +73,9 @@ $app->map ( "/search/:string", "authenticate", function ($string = null) use($ap
 } )->via ( "GET" );
 
 
+
+
+
 $app->run ();
 class loadRunMVCComponents {
 	public $model, $controller, $view;
