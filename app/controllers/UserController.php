@@ -3,13 +3,13 @@ class UserController {
 	private $slimApp;
 	private $model;
 	private $requestBody;
-	public function __construct($model, $action = null, $slimApp, $parameteres = null) {
+	public function __construct($model, $action = null, $slimApp, $parameters = null) {
 		$this->model = $model;
 		$this->slimApp = $slimApp;
 		$this->requestBody = json_decode ( $this->slimApp->request->getBody (), true ); // this must contain the representation of the new user
 		
-		if (! empty ( $parameteres ["id"] ))
-			$id = $parameteres ["id"];
+		if (! empty ( $parameters ["id"] ))
+			$id = $parameters ["id"];
 		
 		switch ($action) {
 			case ACTION_GET_USER :
@@ -28,7 +28,7 @@ class UserController {
 				$this->deleteUser ( $id );
 				break;
 			case ACTION_SEARCH_USERS :
-				$string = $parameteres ["SearchingString"];
+				$string = $parameters ["SearchingString"];
 				$this->searchUsers ( $string );
 				break;
 			case null :
