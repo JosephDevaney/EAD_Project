@@ -72,9 +72,33 @@ $app->map ( "/search/:string", "authenticate", function ($string = null) use($ap
 	return new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $parameters );
 } )->via ( "GET" );
 
+$app->map ( "/moves(/:id)", "authenticate", function ($moveID = null) use($app) {
+    $httpMethod = $app->request->getMethod ();
+    $action = null;
+    $parameters ["id"] = $moveID; // prepare parameters to be passed to the controller (example: ID)
 
-
-
+    if (($moveID == null) or is_numeric ( $moveID )) {
+        switch ($httpMethod) {
+            case "GET" :
+                if ($moveID != null)
+                    $action = ACTION_GET_MOVE;
+                else
+                    $action = ACTION_GET_MOVES;
+                break;
+            case "POST" :
+                $action = ACTION_CREATE_MOVE;
+                break;
+            case "PUT" :
+                $action = ACTION_UPDATE_MOVE;
+                break;
+            case "DELETE" :
+                $action = ACTION_DELETE_MOVE;
+                break;
+            default :
+        }
+    }
+    return new loadRunMVCComponents ( "MoveModel", "MoveController", "jsonView", $action, $app, $parameters );
+} )->via ( "GET", "POST", "PUT", "DELETE" );
 
 $app->run ();
 class loadRunMVCComponents {
