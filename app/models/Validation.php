@@ -16,11 +16,12 @@ class Validation {
 	 * @param $max - the maximum value for the input number
 	 * @return boolean indicating whether it is a valid number in the input range
 	 */
-	public function isNumberInRangeValid ($number, $min, $max){
+	public function isNumberInRangeValid ($number, $min =-2147483647 , $max =2147483647){
 		if (is_numeric($number))
 			if ($number>= $min && $number<= $max) return (true);
 		return (false);
 	}
+
 	/**
 	 * @param $string - the input string
 	 * @param $maxchars - the maximum length of the input string
