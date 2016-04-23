@@ -22,7 +22,7 @@ class PokemonController {
             case ACTION_GET_POKEMON :
                 $this->getPokemon ( $id );
                 break;
-            case ACTION_GET_POKEMON :
+            case ACTION_GET_ALL_POKEMON :
                 $this->getAllPokemon ();
                 break;
             case ACTION_UPDATE_POKEMON :
@@ -141,5 +141,5 @@ class PokemonController {
             $this->model->apiResponse = $Message;
         }
     }
-    
+
 }
