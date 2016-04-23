@@ -9,12 +9,12 @@ define("DB_CHARSET", "utf8" ); 			// set database charset
 define("DB_DEBUGMODE", true ); 			// set database charset
 
 /* actions for the USERS REST resource */
-define("ACTION_GET_USER", 33);
-define("ACTION_GET_USERS", 44);
-define("ACTION_CREATE_USER", 55);
-define("ACTION_UPDATE_USER", 66);
-define("ACTION_DELETE_USER", 77);
-define("ACTION_SEARCH_USERS", 88);
+define("ACTION_GET_USER", 133);
+define("ACTION_GET_USERS", 144);
+define("ACTION_CREATE_USER", 155);
+define("ACTION_UPDATE_USER", 166);
+define("ACTION_DELETE_USER", 177);
+define("ACTION_SEARCH_USERS", 188);
 
 /* actions for the POKEMON REST resource */
 define("ACTION_GET_POKEMON", 233);
