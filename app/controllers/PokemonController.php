@@ -6,7 +6,7 @@
  * Time: 19:23
  */
 
-class UserController {
+class PokemonController {
     private $slimApp;
     private $model;
     private $requestBody;
@@ -19,24 +19,24 @@ class UserController {
             $id = $parameters ["id"];
 
         switch ($action) {
-            case ACTION_GET_USER :
-                $this->getUser ( $id );
+            case ACTION_GET_POKEMON :
+                $this->getPokemon ( $id );
                 break;
-            case ACTION_GET_USERS :
-                $this->getUsers ();
+            case ACTION_GET_POKEMON :
+                $this->getAllPokemon ();
                 break;
-            case ACTION_UPDATE_USER :
-                $this->updateUser ( $id, $this->requestBody );
+            case ACTION_UPDATE_POKEMON :
+                $this->updatePokemon ( $id, $this->requestBody );
                 break;
-            case ACTION_CREATE_USER :
-                $this->createNewUser ( $this->requestBody );
+            case ACTION_CREATE_POKEMON :
+                $this->createNewPokemon ( $this->requestBody );
                 break;
-            case ACTION_DELETE_USER :
-                $this->deleteUser ( $id );
+            case ACTION_DELETE_POKEMON :
+                $this->deletePokemon ( $id );
                 break;
-            case ACTION_SEARCH_USERS :
+            case ACTION_SEARCH_POKEMON :
                 $string = $parameters ["SearchingString"];
-                $this->searchUsers ( $string );
+                $this->searchPokemon ( $string );
                 break;
             case null :
                 $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
@@ -47,8 +47,8 @@ class UserController {
                 break;
         }
     }
-    private function getUsers() {
-        $answer = $this->model->getUsers ();
+    private function getAllPokemon() {
+        $answer = $this->model->getAllPokemon();
         if ($answer != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $this->model->apiResponse = $answer;
@@ -61,8 +61,8 @@ class UserController {
         }
     }
 
-    private function getUser($userID) {
-        $answer = $this->model->getUser ( $userID );
+    private function getPokemon($pokemonID) {
+        $answer = $this->model->getPokemon ( $pokemonID );
         if ($answer != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $this->model->apiResponse = $answer;
@@ -76,8 +76,8 @@ class UserController {
         }
     }
 
-    private function createNewUser($newUser) {
-        if ($newID = $this->model->createNewUser ( $newUser )) {
+    private function createNewPokemon($newPokemon) {
+        if ($newID = $this->model->createNewPokemon( $newPokemon )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_CREATED,
@@ -92,13 +92,13 @@ class UserController {
             $this->model->apiResponse = $Message;
         }
     }
-    private function deleteUser($userId) {
+    private function deletePokemon($pokemonId) {
         //TODO
-        if ($newID = $this->model->deleteUser ( $userId )) {
+        if ($newID = $this->model->deletePokemon ( $pokemonId )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK);
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_DELETED,
-                "id" => "$userId"
+                "id" => "$pokemonId"
             );
             $this->model->apiResponse = $Message;
         } else {
@@ -110,13 +110,13 @@ class UserController {
         }
     }
 
-    private function updateUser($userID, $parameters) {
+    private function updatePokemon($pokemonID, $parameters) {
         //TODO
-        if ($userID = $this->model->updateUsers ( $userID, $parameters )) {
+        if ($pokemonID = $this->model->updatePokemon ( $pokemonID, $parameters )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_UPDATED,
-                "id" => "$userID"
+                "id" => "$pokemonID"
             );
             $this->model->apiResponse = $Message;
         } else {
@@ -127,12 +127,12 @@ class UserController {
             $this->model->apiResponse = $Message;
         }
     }
-    private function searchUsers($string) {
+    private function searchPokemon($string) {
         //TODO
-        if ($users = $this->model->searchUsers ( $string )) {
+        if ($pokemon = $this->model->searchPokemon ( $string )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
 
-            $this->model->apiResponse = $users;
+            $this->model->apiResponse = $pokemon;
         } else {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
             $Message = array (
@@ -141,18 +141,5 @@ class UserController {
             $this->model->apiResponse = $Message;
         }
     }
-    private function searchUsersByUsername($string) {
-        //TODO
-        if ($users = $this->model->searchUsername ( $string )) {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
-
-            $this->model->apiResponse = $users;
-        } else {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
-            $Message = array (
-                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
-            );
-            $this->model->apiResponse = $Message;
-        }
-    }
+    
 }

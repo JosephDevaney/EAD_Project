@@ -16,13 +16,21 @@ define("ACTION_UPDATE_USER", 66);
 define("ACTION_DELETE_USER", 77);
 define("ACTION_SEARCH_USERS", 88);
 
+/* actions for the POKEMON REST resource */
+define("ACTION_GET_POKEMON", 233);
+define("ACTION_GET_POKEMON", 244);
+define("ACTION_CREATE_POKEMON", 255);
+define("ACTION_UPDATE_POKEMON", 266);
+define("ACTION_DELETE_POKEMON", 277);
+define("ACTION_SEARCH_POKEMON", 288);
+
 /* actions for the MOVES REST resource */
-define("ACTION_GET_MOVE", 33);
-define("ACTION_GET_MOVES", 44);
-define("ACTION_CREATE_MOVE", 55);
-define("ACTION_UPDATE_MOVE", 66);
-define("ACTION_DELETE_MOVE", 77);
-define("ACTION_SEARCH_MOVES", 88);
+define("ACTION_GET_MOVE", 333);
+define("ACTION_GET_MOVES", 344);
+define("ACTION_CREATE_MOVE", 355);
+define("ACTION_UPDATE_MOVE", 366);
+define("ACTION_DELETE_MOVE", 377);
+define("ACTION_SEARCH_MOVES", 388);
 
 /* HTTP status codes 2xx*/
 define("HTTPSTATUS_OK", 200);
