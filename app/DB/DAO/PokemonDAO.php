@@ -87,7 +87,6 @@ class PokemonDAO {
         $arrayOfResults = $this->dbManager->fetchResults ( $stmt );
         return $arrayOfResults;
     }
-
-
-
+    
 }
+
