@@ -1,7 +1,7 @@
 <?php
 require_once "../Slim/Slim.php";
 Slim\Slim::registerAutoloader ();
-
+// Test
 $app = new \Slim\Slim (); // slim run-time object
 
 require_once "conf/config.inc.php";
