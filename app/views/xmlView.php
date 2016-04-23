@@ -9,8 +9,9 @@ class xmlView
         $this->slimApp = $slimApp;
     }
 
-    private function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
+    private function xml_encode($mixed, $domElement=null, $DOMDocument=null, $elem = null) {
         //var_dump($mixed);
+        //var_dump($elem);
         if (is_null($DOMDocument)) {
             $DOMDocument =new DOMDocument;
             $DOMDocument->formatOutput = true;
@@ -23,6 +24,11 @@ class xmlView
                 $mixed = get_object_vars($mixed);
             }
             if (is_array($mixed)) {
+                if(array_key_exists(0, $mixed) && is_array($mixed[0]) && array_key_exists('id',$mixed[0])){
+                    $elem = $DOMDocument->createElement('element');
+                    $elem->setAttribute("id", array_shift($mixed[0]));
+                    $DOMDocument->appendChild($elem);
+                }
                 foreach ($mixed as $index => $mixedElement) {
                     if (is_int($index)) {
                         if ($index === 0) {
@@ -31,13 +37,19 @@ class xmlView
                         else {
                             if(property_exists($domElement, "tagName")){
                                 $node = $DOMDocument->createElement($domElement->tagName);
-                                $domElement->parentNode->appendChild($node);
+                                if($elem != null)
+                                    $elem->appendChild($node);
+                                else
+                                    $domElement->parentNode->appendChild($node);
                             }
                         }
                     }
                     else {
                         $plural = $DOMDocument->createElement($index);
-                        $domElement->appendChild($plural);
+                        if($elem != null)
+                            $elem->appendChild($plural);
+                        else
+                            $domElement->appendChild($plural);
                         $node = $plural;
                         if (!(rtrim($index, 's') === $index)) {
                             $singular = $DOMDocument->createElement(rtrim($index, 's'));
@@ -45,8 +57,7 @@ class xmlView
                             $node = $singular;
                         }
                     }
-
-                    $this->xml_encode($mixedElement, $node, $DOMDocument);
+                    $this->xml_encode($mixedElement, $node, $DOMDocument, $elem);
                 }
             }
             else {
