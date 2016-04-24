@@ -1,7 +1,7 @@
 <?php
 require_once('../app/conf/config.inc.php');
 require_once('../simpletest/autorun.php');
-require_once('../Utility/XmlEncoder.php');
+require_once('../app/utility/XmlEncoder.php');
 require_once('RequestTest.php');
 
 class UserRequestTests extends UnitTestCase{
