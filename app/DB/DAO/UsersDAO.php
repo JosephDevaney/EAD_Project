@@ -39,20 +39,20 @@ class UsersDAO {
 	}
 	public function update($parametersArray, $userID) {
 		//TODO
-		$sql = 'UPDATE users SET name=?, surname=?,email=?,password=? WHERE id=?';
+		$sql = 'UPDATE users SET username=?, name=?, surname=?,email=?,password=? WHERE id=?';
 		$sql .= ';';
 		
 		$stmt = $this->dbManager->prepareQuery($sql);
 		$this->dbManager->bindValue($stmt, 1, $parametersArray ["username"], PDO::PARAM_STR);
-		$this->dbManager->bindValue($stmt, 1, $parametersArray["name"], PDO::PARAM_STR);
-		$this->dbManager->bindValue($stmt, 2, $parametersArray["surname"], PDO::PARAM_STR);
-		$this->dbManager->bindValue($stmt, 3, $parametersArray["email"], PDO::PARAM_STR);
-		$this->dbManager->bindValue($stmt, 4, $parametersArray["password"], PDO::PARAM_STR);
-		$this->dbManager->bindValue($stmt, 5, $userID, PDO::PARAM_INT);
+		$this->dbManager->bindValue($stmt, 2, $parametersArray["name"], PDO::PARAM_STR);
+		$this->dbManager->bindValue($stmt, 3, $parametersArray["surname"], PDO::PARAM_STR);
+		$this->dbManager->bindValue($stmt, 4, $parametersArray["email"], PDO::PARAM_STR);
+		$this->dbManager->bindValue($stmt, 5, $parametersArray["password"], PDO::PARAM_STR);
+		$this->dbManager->bindValue($stmt, 6, $userID, PDO::PARAM_INT);
 		$res = $this->dbManager->executeQuery ( $stmt );
 		
-		var_dump($this->dbManager->getLastInsertedID());
-		return $this->dbManager->getLastInsertedID();
+//		var_dump($this->dbManager->getLastInsertedID());
+		return $userID;
 	}
 	public function delete($userID) {
 		//TODO
