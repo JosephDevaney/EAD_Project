@@ -33,7 +33,7 @@ class UserRequestTests extends UnitTestCase{
 
     public function testDeleteUser(){
         $this->assertTrue($this->requestTest->delete($this->route . '/1',
-            array("Accept" => "application/json", "username" => "test", "password" => "testing"), HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"1"}'));
+            array("Accept" => "application/json", "username" => "test", "password" => "testing"), HTTPSTATUS_OK, '{"message":"User Authorised"}{"message":"Resource has been deleted","id":"1"}'));
     }
 
     public function testGetUsersJson(){
@@ -47,13 +47,13 @@ class UserRequestTests extends UnitTestCase{
 
     public function testGetUsersXml(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
-        $this->requestTest->post($this->route, json_encode($this->sampleUser), array("Accept" => "application/xml"));
+        $this->requestTest->post($this->route, json_encode($this->sampleUser), array("Accept" => "application/json"));
         $expectedResults = array();
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
         $this->xmlEncoder = new XmlEncoder($expectedResults);
         $this->xmlEncoder->encode();
-        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/json"), HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
+        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/xml"), HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
     }
 
     public function testUpdateUserJson(){

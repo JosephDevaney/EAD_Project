@@ -1,6 +1,6 @@
 <?php
-class XmlEncoder
-{
+
+class XmlEncoder {
     private $xmlString, $array;
 
     public function __construct($array) {

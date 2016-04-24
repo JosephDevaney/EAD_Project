@@ -14,6 +14,7 @@ define("BASE_URL", "http://localhost/phpstorm/EAD_Project/app/index.php/");
 //define("BASE_URL", "http://localhost:1337/Workspace/EAD_Project/app/index.php/");
 
 /* actions for the USERS REST resource */
+define("ACTION_AUTHENTICATE_USER", 122);
 define("ACTION_GET_USER", 133);
 define("ACTION_GET_USERS", 144);
 define("ACTION_CREATE_USER", 155);
@@ -21,7 +22,6 @@ define("ACTION_UPDATE_USER", 166);
 define("ACTION_DELETE_USER", 177);
 define("ACTION_SEARCH_USERS", 188);
 define("ACTION_PURGE_USERS", 199);
-define("ACTION_AUTHENTICATE_USER", 122);
 
 /* actions for the POKEMON REST resource */
 define("ACTION_GET_POKEMON", 233);
