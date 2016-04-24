@@ -21,6 +21,7 @@ define("ACTION_UPDATE_USER", 166);
 define("ACTION_DELETE_USER", 177);
 define("ACTION_SEARCH_USERS", 188);
 define("ACTION_PURGE_USERS", 199);
+define("ACTION_AUTHENTICATE_USER", 122);
 
 /* actions for the POKEMON REST resource */
 define("ACTION_GET_POKEMON", 233);
@@ -78,6 +79,9 @@ define("GENERAL_INVALIDBODY", "Request is ok but transmitted body is invalid");
 
 define("GENERAL_WELCOME_MESSAGE", "Welcome to DIT web-services");
 define("GENERAL_INVALIDROUTE", "Requested route does not exist");
+define("GENERAL_AUTHORISED_MESSAGE", "User Authorised");
+define("GENERAL_UNAUTHORISED_MESSAGE", "Provide valid credentials to perform this action");
+define("GENERAL_PURGE_MESSAGE", "all users deleted");
 
 
 /* representation of a new user in the DB */

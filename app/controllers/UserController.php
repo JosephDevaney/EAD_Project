@@ -34,6 +34,9 @@ class UserController {
             case ACTION_PURGE_USERS :
                 $this->purgeUsers();
                 break;
+			case ACTION_AUTHENTICATE_USER :
+				$this->authenticateUser($parameters);
+				break;
 			case null :
 				$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
 				$Message = array (
@@ -142,7 +145,7 @@ class UserController {
         if ($this->model->purgeUsers()) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $Message = array (
-                GENERAL_MESSAGE_LABEL => 'all users deleted'
+                GENERAL_MESSAGE_LABEL => GENERAL_PURGE_MESSAGE
             );
             $this->model->apiResponse = $Message;
         } else {
@@ -153,16 +156,18 @@ class UserController {
             $this->model->apiResponse = $Message;
         }
     }
-	private function searchUsersByUsername($string) {
-		//TODO
-		if ($users = $this->model->searchUsername ( $string )) {
+	private function authenticateUser($params) {
+		if ($this->model->authenticateUser ( $params )) {
 			$this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
-				
-			$this->model->apiResponse = $users;
-		} else {
-			$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
 			$Message = array (
-					GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
+				GENERAL_MESSAGE_LABEL => GENERAL_AUTHORISED_MESSAGE
+			);
+			$this->model->apiResponse = $Message;
+				
+		} else {
+			$this->slimApp->response ()->setStatus ( HTTPSTATUS_UNAUTHORIZED );
+			$Message = array (
+					GENERAL_MESSAGE_LABEL => GENERAL_UNAUTHORISED_MESSAGE
 			);
 			$this->model->apiResponse = $Message;
 		}

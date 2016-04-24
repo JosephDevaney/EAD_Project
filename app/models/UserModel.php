@@ -78,10 +78,16 @@ class UserModel {
 		
 		return false;
 	}
-	public function searchUsername($string) {
-		//TODO
-		if (is_string( $string ))
-			return ($this->UsersDAO->searchUsername( $string ));
+	public function authenticateUser($parameters) {
+		$username = $parameters["username"];
+		$pwd = $parameters["password"];
+		if (is_string( $username ) && is_string($pwd)) {
+			$users = $this->UsersDAO->searchUsername( $username );
+			foreach ($users as $u) {
+				if ($u["password"] == $pwd)
+					return true;
+			}
+		}
 	
 		return false;
 	}
