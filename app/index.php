@@ -15,7 +15,7 @@ function authenticate(\Slim\Route $route) {
 
 	$action = ACTION_AUTHENTICATE_USER;
 
-	$mvc = new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $header );
+	$mvc = new loadRunMVCComponents ( "UserModel", "UserController", "noOutputView", $action, $app, $header );
 
 	if ($app->response->headers->get('Authenticated'))
 		return true;
@@ -49,6 +49,7 @@ $app->map ( "/users(/:id)", function ($userID = null) use($app) {
 $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) {
     $httpMethod = $app->request->getMethod ();
     $action = null;
+
     $parameters ["id"] = $userID; // prepare parameters to be passed to the controller (example: ID)
 
     if (($userID == null) or is_numeric ( $userID )) {

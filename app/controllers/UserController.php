@@ -159,6 +159,7 @@ class UserController {
 	private function authenticateUser($params) {
 		if ($this->model->authenticateUser ( $params )) {
 			$this->slimApp->response->headers->set('Authenticated', 'true');
+            $this->model->apiResponse = array();
 		} else {
 			$this->slimApp->response ()->setStatus ( HTTPSTATUS_UNAUTHORIZED );
 			$Message = array (
