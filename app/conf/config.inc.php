@@ -8,6 +8,10 @@ define("DB_NAME", "EAD_Project" ); 			// set database name
 define("DB_CHARSET", "utf8" ); 			// set database charset
 define("DB_DEBUGMODE", true ); 			// set database charset
 
+
+/* request testing constants*/
+define("BASE_URL", "http://localhost/phpstorm/EAD_Project/app/index.php/");
+
 /* actions for the USERS REST resource */
 define("ACTION_GET_USER", 133);
 define("ACTION_GET_USERS", 144);

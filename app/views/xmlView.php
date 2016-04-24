@@ -14,9 +14,9 @@ class xmlView
         //var_dump($elem);
         if (is_null($DOMDocument)) {
             $DOMDocument =new DOMDocument;
-            $DOMDocument->formatOutput = true;
+            $DOMDocument->preserveWhiteSpace = false;
             $this->xml_encode($mixed, $DOMDocument, $DOMDocument);
-            echo $DOMDocument->saveXML();
+            return $DOMDocument->saveXML();
         }
         else {
             // To cope with embedded objects
@@ -68,6 +68,7 @@ class xmlView
     public function output(){
         //prepare xml response
         $xmlResponse = $this->xml_encode($this->model->apiResponse);
+        $xmlResponse = preg_replace("/[\r\n]/", '', $xmlResponse);
         $this->slimApp->response->write($xmlResponse);
     }
 
