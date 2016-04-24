@@ -38,6 +38,7 @@ define("ACTION_CREATE_MOVE", 355);
 define("ACTION_UPDATE_MOVE", 366);
 define("ACTION_DELETE_MOVE", 377);
 define("ACTION_SEARCH_MOVES", 388);
+define("ACTION_PURGE_MOVES", 399);
 
 /* HTTP status codes 2xx*/
 define("HTTPSTATUS_OK", 200);

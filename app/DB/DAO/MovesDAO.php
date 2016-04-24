@@ -60,6 +60,16 @@ class MovesDAO {
 
         return $moveID;
     }
+    public function purge() {
+        //TODO
+        $sql = 'TRUNCATE moves';
+        $sql .= ';';
+
+        $stmt = $this->dbManager->prepareQuery($sql);
+        $this->dbManager->executeQuery ( $stmt );
+
+        return true;
+    }
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM moves ";

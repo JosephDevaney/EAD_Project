@@ -75,6 +75,9 @@ class MovesModel {
         }
         return (false);
     }
+    public function purgeMoves() {
+        return $this->MovesDAO->purge();
+    }
     public function searchMoves($string) {
         //TODO
         if (is_string( $string ))

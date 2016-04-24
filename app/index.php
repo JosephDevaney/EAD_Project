@@ -143,6 +143,9 @@ $app->map ( "/moves(/:id)", "authenticate", function ($moveID = null) use($app) 
             case "DELETE" :
                 $action = ACTION_DELETE_MOVE;
                 break;
+            case "PURGE" :
+                $action = ACTION_PURGE_MOVES;
+                break;
             default :
         }
     }

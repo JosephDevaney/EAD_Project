@@ -31,6 +31,9 @@ class MoveController {
                 $string = $parameters["SearchingString"];
                 $this->searchMoves ( $string );
                 break;
+            case ACTION_PURGE_MOVES :
+                $this->purgeMoves();
+                break;
             case null :
                 $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
                 $Message = array (
@@ -102,7 +105,22 @@ class MoveController {
             $this->model->apiResponse = $Message;
         }
     }
-
+    private function purgeMoves() {
+        //TODO
+        if ($this->model->purgeMoves()) {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => GENERAL_PURGE_MESSAGE
+            );
+            $this->model->apiResponse = $Message;
+        } else {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
+            );
+            $this->model->apiResponse = $Message;
+        }
+    }
     private function updateMove($moveID, $parameters) {
         //TODO
         if ($moveID = $this->model->updateMove ( $moveID, $parameters )) {
