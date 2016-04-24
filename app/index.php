@@ -8,26 +8,21 @@ require_once "conf/config.inc.php";
 
 function authenticate(\Slim\Route $route) {
 	$app = \Slim\Slim::getInstance();
-	require_once "models/UserModel.php";
 
     $httpMethod = $app->request->getMethod ();
     if($httpMethod == 'GET' || $httpMethod == 'POST' || $httpMethod == 'PURGE')
         return true;
 	
 	$header = $app->request->headers();
-	$name = $header["username"];
-	$pwd = $header["password"];
 
-	$model = new UserModel();
-	$user = $model->searchUsername($name);
-	
-	if ($user != false && $user != null) {
-		foreach ($user as $u) {
-			if ($u["password"] == $pwd) {
-				return true;
-			}
-		}
-	}
+	$action = ACTION_AUTHENTICATE_USER;
+
+	$mvc = new loadRunMVCComponents ( "UserModel", "UserController", "jsonView", $action, $app, $header );
+
+	if ($mvc->model->apiResponse["message"] == GENERAL_AUTHORISED_MESSAGE)
+		return true;
+
+
 	$app->halt(401);
 }
 
@@ -165,10 +160,10 @@ class loadRunMVCComponents {
 		include_once "controllers/" . $controllerName . ".php";
 		include_once "views/" . $viewName . ".php";
 		
-		$model = new $modelName (); // common model
-		$controller = new $controllerName ( $model, $action, $app, $parameters );
-		$view = new $viewName ( $controller, $model, $app, $app->headers ); // common view
-		$view->output (); // this returns the response to the requesting client
+		$this->model = new $modelName (); // common model
+		$this->controller = new $controllerName ( $this->model, $action, $app, $parameters );
+		$this->view = new $viewName ( $this->controller, $this->model, $app, $app->headers ); // common view
+		$this->view->output (); // this returns the response to the requesting client
 	}
 }
 
