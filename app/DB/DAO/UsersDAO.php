@@ -64,6 +64,16 @@ class UsersDAO {
 		
 		return $userID;
 	}
+	public function purge() {
+		//TODO
+		$sql = 'TRUNCATE users';
+		$sql .= ';';
+
+		$stmt = $this->dbManager->prepareQuery($sql);
+		$this->dbManager->executeQuery ( $stmt );
+
+		return true;
+	}
 	public function search($str) {
 		//TODO
 		$sql = "SELECT * ";

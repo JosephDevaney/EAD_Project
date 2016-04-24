@@ -7,27 +7,39 @@ class UserRequestTests extends UnitTestCase{
     private $requestTest;
     private $route;
 
-    public function setUp(){
+    function setUp(){
         $this->requestTest = new RequestTest();
         $this->route = BASE_URL . 'users';
+        $this->requestTest->purge($this->route);
+        $this->requestTest->post($this->route, '{"username":"mm", "name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"));
     }
 
-    public function tearDown(){
+    function tearDown(){
+        $this->requestTest->purge($this->route);
         $this->requestTest = NULL;
     }
 
-    public function  testPost(){
-        $this->assertTrue($this->requestTest->post($this->route, '{"name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"), HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"7"}', 80));
-        $this->requestTest->delete($this->route, '{"name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"), HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"7"}', 80);
+    public function  testCreateUserJson(){
+        $this->assertTrue($this->requestTest->post($this->route, '{"username":"mm", "name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"), HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"2"}'));
+    }
+
+    public function testDeleteUser(){
+        $this->assertTrue($this->requestTest->delete($this->route . '/1', array("Accept" => "application/json", "username" => "mm", "password" => "slave4jynx"), HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"1"}'));
     }
 
     public function testGetUsersJson(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
-        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/json"), HTTPSTATUS_OK, '[{"id":"5","username":"","name":"Mister","surname":"Mime","email":"mister@mime.com","password":"slave4jinx"},{"id":"6","username":"","name":"Mister","surname":"Mime","email":"mister@mime.com","password":"slave4jinx"}]', 90));
+        $this->requestTest->post($this->route, '{"username":"mm", "name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"));
+        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/json"), HTTPSTATUS_OK, '[{"id":"1","username":"mm","name":"Mister","surname":"Mime","email":"mister@mime.com","password":"slave4jynx"},{"id":"2","username":"mm","name":"Mister","surname":"Mime","email":"mister@mime.com","password":"slave4jynx"}]'));
     }
 
     public function testGetUsersXml(){
-        $this->assertTrue($this->requestTest->get($this->route,array("Accept" => "application/xml"), HTTPSTATUS_OK, '<?xml version="1.0"?><element id="5"><username></username><name>Mister</name><surname>Mime</surname><email>mister@mime.com</email><password>slave4jinx</password></element><element id="6"><username></username><name>Mister</name><surname>Mime</surname><email>mister@mime.com</email><password>slave4jinx</password></element>', 90));
+        $this->requestTest->post($this->route, '{"username":"mm", "name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"));
+        $this->assertTrue($this->requestTest->get($this->route,array("Accept" => "application/xml"), HTTPSTATUS_OK, '<?xml version="1.0"?><element id="1"><username>mm</username><name>Mister</name><surname>Mime</surname><email>mister@mime.com</email><password>slave4jynx</password></element><element id="2"><username>mm</username><name>Mister</name><surname>Mime</surname><email>mister@mime.com</email><password>slave4jynx</password></element>'));
     }
+
+//    public function testUpdateUserJson(){
+//        $this->assertTrue($this->requestTest->post($this->route, '{"username":"mm", "name":"Mister", "surname":"Mime", "email":"mister@mime.com", "password":"slave4jynx"} ', array("Accept" => "application/json"), HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"2"}'));
+//    }
 }
 ?>

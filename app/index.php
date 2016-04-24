@@ -11,7 +11,7 @@ function authenticate(\Slim\Route $route) {
 	require_once "models/UserModel.php";
 
     $httpMethod = $app->request->getMethod ();
-    if($httpMethod == 'GET' || $httpMethod == 'POST')
+    if($httpMethod == 'GET' || $httpMethod == 'POST' || $httpMethod == 'PURGE')
         return true;
 	
 	$header = $app->request->headers();
@@ -61,6 +61,8 @@ $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) 
 			case "DELETE" :
 				$action = ACTION_DELETE_USER;
 				break;
+            case "PURGE" :
+                $action = ACTION_PURGE_USERS;
 			default :
 		}
 	}
@@ -68,7 +70,7 @@ $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) 
     $responseFormat = responseFormat($app);
 
 	return new loadRunMVCComponents ( "UserModel", "UserController", $responseFormat, $action, $app, $parameters );
-} )->via ( "GET", "POST", "PUT", "DELETE" );
+} )->via ( "GET", "POST", "PUT", "DELETE" , "PURGE");
 
 $app->map ( "/search/:entity/:searchString", function ($entity = null,$searchString = null) use($app) {
 

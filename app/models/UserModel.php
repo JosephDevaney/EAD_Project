@@ -94,6 +94,9 @@ class UserModel {
 		}
 		return (false);
 	}
+	public function purgeUsers() {
+        return $this->UsersDAO->purge();
+	}
 	public function __destruct() {
 		$this->UsersDAO = null;
 		$this->dbmanager->closeConnection ();

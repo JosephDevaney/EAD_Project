@@ -11,81 +11,164 @@ class RequestTest {
     function __construct() {
     }
 
-    public function get($url, $headers, $expectedStatus, $expectedResponse, $similarityPercentage = 100){
+    public function get($url, $headers, $expectedStatus = false, $expectedResponse = false, $similarityPercentage = 100){
         $curl = new Curl();
         foreach ($headers as $key => $value){
             $curl->setHeader($key, $value);
         }
         $curl->get($url);
-        if($curl->httpStatusCode == $expectedStatus)
-        {
-            if($curl->response) {
-                //var_dump($expectedResponse);
-                $sim = 0;
-                similar_text($expectedResponse, $curl->response, $sim);
-                if($sim >= $similarityPercentage){
-                    return true;
-                }
-                else{
-                    echo 'Error: Expected:';
-                    var_dump($expectedResponse);
-                    echo'Got:';
-                    var_dump($curl->response);
-                    echo round($sim) . "% similar";
+        if($expectedResponse){
+            if($curl->httpStatusCode == $expectedStatus)
+            {
+                if($curl->response) {
+                    //var_dump($expectedResponse);
+                    $sim = 0;
+                    similar_text($expectedResponse, $curl->response, $sim);
+                    if($sim >= $similarityPercentage){
+                        return true;
+                    }
+                    else{
+                        echo 'Error: Expected:';
+                        var_dump($expectedResponse);
+                        echo'Got:';
+                        var_dump($curl->response);
+                        echo round($sim) . "% similar";
+                    }
                 }
             }
-        }
-        else {
-            echo 'Error: Expected:';
-            var_dump($expectedStatus);
-            echo'Got:';
-            var_dump($curl->httpStatusCode);
-        }
+            else {
+                echo 'Error: Expected:';
+                var_dump($expectedStatus);
+                echo'Got:';
+                var_dump($curl->httpStatusCode);
+            }
 
-        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
-        return false;
+            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            return false;
+        }
     }
 
 
-    public function post($url, $body, $headers, $expectedStatus, $expectedResponse, $similarityPercentage = 100){
+    public function post($url, $body, $headers, $expectedStatus = false, $expectedResponse = false, $similarityPercentage = 100){
         $curl = new Curl();
         foreach ($headers as $key => $value){
             $curl->setHeader($key, $value);
         }
         $curl->post($url, $body);
-        if($curl->httpStatusCode == $expectedStatus)
-        {
-            if($curl->response) {
-                //var_dump($expectedResponse);
-                $sim = 0;
-                similar_text($expectedResponse, $curl->response, $sim);
-                if($sim >= $similarityPercentage){
-                    return true;
-                }
-                else{
-                    echo 'Error: Expected:';
-                    var_dump($expectedResponse);
-                    echo'Got:';
-                    var_dump($curl->response);
-                    echo round($sim) . "% similar";
+        if($expectedResponse){
+            if($curl->httpStatusCode == $expectedStatus)
+            {
+                if($curl->response) {
+                    //var_dump($expectedResponse);
+                    $sim = 0;
+                    similar_text($expectedResponse, $curl->response, $sim);
+                    if($sim >= $similarityPercentage){
+                        return true;
+                    }
+                    else{
+                        echo 'Error: Expected:';
+                        var_dump($expectedResponse);
+                        echo'Got:';
+                        var_dump($curl->response);
+                        echo round($sim) . "% similar";
+                    }
                 }
             }
-        }
-        else {
-            echo 'Error: Expected:';
-            var_dump($expectedStatus);
-            echo'Got:';
-            var_dump($curl->httpStatusCode);
-        }
+            else {
+                echo 'Error: Expected:';
+                var_dump($expectedStatus);
+                echo'Got:';
+                var_dump($curl->httpStatusCode);
+            }
 
-        echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
-        return false;
+            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            return false;
+        }
     }
 
-    public function update(){
+    public function put($url, $body, $headers, $expectedStatus = false, $expectedResponse = false, $similarityPercentage = 100){
+        $curl = new Curl();
+        foreach ($headers as $key => $value){
+            $curl->setHeader($key, $value);
+        }
+        $curl->put($url, $body);
+        if($expectedResponse){
+            if($curl->httpStatusCode == $expectedStatus)
+            {
+                if($curl->response) {
+                    //var_dump($expectedResponse);
+                    $sim = 0;
+                    similar_text($expectedResponse, $curl->response, $sim);
+                    if($sim >= $similarityPercentage){
+                        return true;
+                    }
+                    else{
+                        echo 'Error: Expected:';
+                        var_dump($expectedResponse);
+                        echo'Got:';
+                        var_dump($curl->response);
+                        echo round($sim) . "% similar";
+                    }
+                }
+            }
+            else {
+                echo 'Error: Expected:';
+                var_dump($expectedStatus);
+                echo'Got:';
+                var_dump($curl->httpStatusCode);
+            }
+
+            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            return false;
+        }
     }
 
-    public function delete(){
+    public function delete($url, $headers, $expectedStatus = false, $expectedResponse = false, $similarityPercentage = 100){
+        $curl = new Curl();
+        foreach ($headers as $key => $value){
+            $curl->setHeader($key, $value);
+        }
+        $curl->delete($url);
+        if($expectedResponse){
+            if($curl->httpStatusCode == $expectedStatus)
+            {
+                if($curl->response) {
+                    //var_dump($expectedResponse);
+                    $sim = 0;
+                    similar_text($expectedResponse, $curl->response, $sim);
+                    if($sim >= $similarityPercentage){
+                        return true;
+                    }
+                    else{
+                        echo 'Error: Expected:';
+                        var_dump($expectedResponse);
+                        echo'Got:';
+                        var_dump($curl->response);
+                        echo round($sim) . "% similar";
+                    }
+                }
+            }
+            else {
+                echo 'Error: Expected:';
+                var_dump($expectedStatus);
+                echo'Got:';
+                var_dump($curl->httpStatusCode);
+            }
+
+            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            return false;
+        }
+    }
+
+    public function purge($url){
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PURGE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        curl_close($ch);
     }
 }
 ?>

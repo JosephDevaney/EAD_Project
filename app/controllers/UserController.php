@@ -31,6 +31,9 @@ class UserController {
 				$string = $parameters ["SearchingString"];
 				$this->searchUsers ( $string );
 				break;
+            case ACTION_PURGE_USERS :
+                $this->purgeUsers();
+                break;
 			case null :
 				$this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
 				$Message = array (
@@ -134,6 +137,22 @@ class UserController {
 			$this->model->apiResponse = $Message;
 		}
 	}
+    private function purgeUsers() {
+        //TODO
+        if ($this->model->purgeUsers()) {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => 'all users deleted'
+            );
+            $this->model->apiResponse = $Message;
+        } else {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
+            );
+            $this->model->apiResponse = $Message;
+        }
+    }
 	private function searchUsersByUsername($string) {
 		//TODO
 		if ($users = $this->model->searchUsername ( $string )) {

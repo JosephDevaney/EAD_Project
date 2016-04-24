@@ -19,6 +19,7 @@ define("ACTION_CREATE_USER", 155);
 define("ACTION_UPDATE_USER", 166);
 define("ACTION_DELETE_USER", 177);
 define("ACTION_SEARCH_USERS", 188);
+define("ACTION_PURGE_USERS", 199);
 
 /* actions for the POKEMON REST resource */
 define("ACTION_GET_POKEMON", 233);
