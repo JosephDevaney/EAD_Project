@@ -24,14 +24,15 @@ class UsersDAO {
 	}
 	public function insert($parametersArray) {
 		// insertion assumes that all the required parameters are defined and set
-		$sql = "INSERT INTO users (name, surname, email, password) ";
-		$sql .= "VALUES (?,?,?,?) ";
+		$sql = "INSERT INTO users (username, name, surname, email, password) ";
+		$sql .= "VALUES (?,?,?,?,?) ";
 		
 		$stmt = $this->dbManager->prepareQuery ( $sql );
-		$this->dbManager->bindValue ( $stmt, 1, $parametersArray ["name"], $this->dbManager->STRING_TYPE );
-		$this->dbManager->bindValue ( $stmt, 2, $parametersArray ["surname"], $this->dbManager->STRING_TYPE );
-		$this->dbManager->bindValue ( $stmt, 3, $parametersArray ["email"], $this->dbManager->STRING_TYPE );
-		$this->dbManager->bindValue ( $stmt, 4, $parametersArray ["password"], $this->dbManager->STRING_TYPE );
+		$this->dbManager->bindValue ( $stmt, 1, $parametersArray ["username"], $this->dbManager->STRING_TYPE );
+		$this->dbManager->bindValue ( $stmt, 2, $parametersArray ["name"], $this->dbManager->STRING_TYPE );
+		$this->dbManager->bindValue ( $stmt, 3, $parametersArray ["surname"], $this->dbManager->STRING_TYPE );
+		$this->dbManager->bindValue ( $stmt, 4, $parametersArray ["email"], $this->dbManager->STRING_TYPE );
+		$this->dbManager->bindValue ( $stmt, 5, $parametersArray ["password"], $this->dbManager->STRING_TYPE );
 		$this->dbManager->executeQuery ( $stmt );
 		
 		return ($this->dbManager->getLastInsertedID ());
