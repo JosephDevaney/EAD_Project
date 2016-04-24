@@ -58,7 +58,9 @@ class UserRequestTests extends UnitTestCase{
         array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
         $this->xmlEncoder = new XmlEncoder($expectedResults);
         $this->xmlEncoder->encode();
-        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/xml", "username" => "test", "password" => "testing"), HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
+        $headers = $this->authHeaders;
+        $headers['Accept'] = "application/xml";
+        $this->assertTrue($this->requestTest->get($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
     }
 
     public function testUpdateUserJson(){
@@ -67,7 +69,10 @@ class UserRequestTests extends UnitTestCase{
         $this->requestTest->put($this->route . "/1", json_encode($this->sampleUser), $this->authHeaders);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
-        $this->assertTrue($this->requestTest->get($this->route . "/1", array("Accept" => "application/json", "username" => "testMod", "password" => "testingMod"), HTTPSTATUS_OK, json_encode($expectedResults)));
+        $headers = $this->authHeaders;
+        $headers['username'] .= "Mod";
+        $headers['password'] .= "Mod";
+        $this->assertTrue($this->requestTest->get($this->route . "/1", $headers, HTTPSTATUS_OK, json_encode($expectedResults)));
 
     }
 }
