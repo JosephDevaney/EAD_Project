@@ -43,6 +43,7 @@ class UsersDAO {
 		$sql .= ';';
 		
 		$stmt = $this->dbManager->prepareQuery($sql);
+		$this->dbManager->bindValue($stmt, 1, $parametersArray ["username"], PDO::PARAM_STR);
 		$this->dbManager->bindValue($stmt, 1, $parametersArray["name"], PDO::PARAM_STR);
 		$this->dbManager->bindValue($stmt, 2, $parametersArray["surname"], PDO::PARAM_STR);
 		$this->dbManager->bindValue($stmt, 3, $parametersArray["email"], PDO::PARAM_STR);

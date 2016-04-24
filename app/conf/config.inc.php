@@ -10,7 +10,8 @@ define("DB_DEBUGMODE", true ); 			// set database charset
 
 
 /* request testing constants*/
-define("BASE_URL", "http://localhost/phpstorm/EAD_Project/app/index.php/");
+//define("BASE_URL", "http://localhost/phpstorm/EAD_Project/app/index.php/");
+define("BASE_URL", "http://localhost:1337/Workspace/EAD_Project/app/index.php/users");
 
 /* actions for the USERS REST resource */
 define("ACTION_GET_USER", 133);
