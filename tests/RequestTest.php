@@ -160,15 +160,24 @@ class RequestTest {
         }
     }
 
-    public function purge($url){
+    public function purge($url, $headers){
 
         $ch = curl_init();
+
+        $formattedHeaders = array();
+
+        foreach ($headers as $key => $value){
+            array_push($formattedHeaders, join(':', array($key, $value)));
+        }
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PURGE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $formattedHeaders);
+        $resp = curl_exec($ch);
         curl_close($ch);
+
+        return $resp;
     }
 }
 ?>

@@ -8,18 +8,23 @@ class UserRequestTests extends UnitTestCase{
     private $requestTest;
     private $xmlEncoder;
     private $sampleUser;
+    private $defaultHeaders;
+    private $authHeaders;
     private $route;
 
     function setUp(){
         $this->requestTest = new RequestTest();
         $this->route = BASE_URL . 'users';
         $this->sampleUser = array("username" => "test", "name" => "testing", "surname" => "tester", "email" => "tester@test.com", "password" => "testing");
-        $this->requestTest->purge($this->route);
-        $this->requestTest->post($this->route, json_encode($this->sampleUser), array("Accept" => "application/json"));
+        $this->defaultHeaders = array("Accept" => "application/json");
+        $this->authHeaders = array("Accept" => "application/json", "username" => "test", "password" => "testing");
+        $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
+        $this->requestTest->purge($this->route, $this->authHeaders);
+        $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
     }
 
     function tearDown(){
-        $this->requestTest->purge($this->route);
+        $this->requestTest->purge($this->route, $this->authHeaders);
         $this->requestTest = NULL;
         $this->xmlEncoder = NULL;
         $this->sampleUser = NULL;
@@ -28,41 +33,41 @@ class UserRequestTests extends UnitTestCase{
 
     public function  testCreateUserJson(){
         $this->assertTrue($this->requestTest->post($this->route, json_encode($this->sampleUser),
-            array("Accept" => "application/json"), HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"2"}'));
+            $this->defaultHeaders, HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"2"}'));
     }
 
     public function testDeleteUser(){
         $this->assertTrue($this->requestTest->delete($this->route . '/1',
-            array("Accept" => "application/json", "username" => "test", "password" => "testing"), HTTPSTATUS_OK, '{"message":"User Authorised"}{"message":"Resource has been deleted","id":"1"}'));
+            $this->authHeaders, HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"1"}'));
     }
 
     public function testGetUsersJson(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
-        $this->requestTest->post($this->route, json_encode($this->sampleUser), array("Accept" => "application/json"));
+        $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
-        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/json"), HTTPSTATUS_OK, json_encode($expectedResults)));
+        $this->assertTrue($this->requestTest->get($this->route, $this->authHeaders, HTTPSTATUS_OK, json_encode($expectedResults)));
     }
 
     public function testGetUsersXml(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
-        $this->requestTest->post($this->route, json_encode($this->sampleUser), array("Accept" => "application/json"));
+        $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
         $this->xmlEncoder = new XmlEncoder($expectedResults);
         $this->xmlEncoder->encode();
-        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/xml"), HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
+        $this->assertTrue($this->requestTest->get($this->route, array("Accept" => "application/xml", "username" => "test", "password" => "testing"), HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
     }
 
     public function testUpdateUserJson(){
-        foreach($this->sampleUser as $value)
+        foreach($this->sampleUser as &$value)
             $value = $value . 'Mod';
-        $this->requestTest->put($this->route . "/1", json_encode($this->sampleUser), array("Accept" => "application/json", "username" => "test", "password" => "testing"));
+        $this->requestTest->put($this->route . "/1", json_encode($this->sampleUser), $this->authHeaders);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
-        $this->assertTrue($this->requestTest->get($this->route . "/1", array("Accept" => "application/json"), HTTPSTATUS_OK, json_encode($expectedResults)));
+        $this->assertTrue($this->requestTest->get($this->route . "/1", array("Accept" => "application/json", "username" => "testMod", "password" => "testingMod"), HTTPSTATUS_OK, json_encode($expectedResults)));
 
     }
 }
