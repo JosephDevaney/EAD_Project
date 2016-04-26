@@ -7,9 +7,34 @@ class XmlEncoder {
         $this->array = $array;
     }
 
+    public function custom_encode() {
+        $xml_str = "";
+
+        if (is_array($this->array)) {
+            foreach ($this->array as $obj) {
+                $xml_str .= "<Object>";
+                $xml_str .= "\n";
+                foreach ($obj as $key => $value) {
+                    $xml_str .= "\t";
+                    $xml_str .= "<" . $key . ">";
+                    $xml_str .= $value;
+                    $xml_str .= "</" . $key . ">";
+                    $xml_str .= "\n";
+                }
+                $xml_str .= "</Object>";
+                $xml_str .= "\n";
+            }
+        }
+        else
+            $xml_str .= $this->array;
+        $this->xmlString = $xml_str;
+
+    }
+
     public function getUnformattedString(){
         if ($this->xmlString){
             $this->xmlString = preg_replace("/[\r\n]/", '', $this->xmlString);
+            $this->xmlString = preg_replace("/[\t]/", '', $this->xmlString);
             return $this->xmlString;
         }
         return false;

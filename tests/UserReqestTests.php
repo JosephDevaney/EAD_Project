@@ -57,7 +57,7 @@ class UserRequestTests extends UnitTestCase{
         array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
         $this->xmlEncoder = new XmlEncoder($expectedResults);
-        $this->xmlEncoder->encode();
+        $this->xmlEncoder->custom_encode();
         $headers = $this->authHeaders;
         $headers['Accept'] = "application/xml";
         $this->assertTrue($this->requestTest->get($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
