@@ -3,86 +3,53 @@
  * @author Joe Devaney & Darren Britton
  * definition of the Moves DAO (database access object)
  */
-class MovesDAO {
-    private $dbManager;
+require_once("DB/DAO/BaseDAO.php");
+class MovesDAO extends BaseDAO {
+    function __construct($DBmgr)
+    {
+        parent::__construct($DBmgr);
+    }
+
     function MovesDAO($DBMngr) {
         $this->dbManager = $DBMngr;
     }
     public function get($id = null) {
-        $sql = "SELECT * ";
-        $sql .= "FROM moves ";
-        if ($id != null)
-            $sql .= "WHERE moves.id=? ";
-        $sql .= "ORDER BY moves.id ";
-
-        $stmt = $this->dbManager->prepareQuery ( $sql );
-        $this->dbManager->bindValue ( $stmt, 1, $id, $this->dbManager->INT_TYPE );
-        $this->dbManager->executeQuery ( $stmt );
-        $rows = $this->dbManager->fetchResults ( $stmt );
-
-        return ($rows);
+        return ($this->base_get($id, "moves", "move_id", "move_id"));
     }
     public function insert($parametersArray) {
         // insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO moves (move_name, accuracy, pp, power) ";
         $sql .= "VALUES (?,?,?,?) ";
 
-        $stmt = $this->dbManager->prepareQuery ( $sql );
-        $this->dbManager->bindValue ( $stmt, 1, $parametersArray ["move_name"], PDO::PARAM_STR );
-        $this->dbManager->bindValue ( $stmt, 2, $parametersArray ["accuracy"], PDO::PARAM_INT );
-        $this->dbManager->bindValue ( $stmt, 3, $parametersArray ["pp"], PDO::PARAM_INT );
-        $this->dbManager->bindValue ( $stmt, 4, $parametersArray ["power"], PDO::PARAM_INT );
-        $this->dbManager->executeQuery ( $stmt );
-
-        return ($this->dbManager->getLastInsertedID ());
+        $values = array($parametersArray["move_name"]=>PDO::PARAM_STR, $parametersArray["accuracy"]=>PDO::PARAM_INT,
+            $parametersArray["pp"]=>PDO::PARAM_INT, $parametersArray["power"]=>PDO::PARAM_INT);
+        
+        return ($this->base_insert($sql, $values));
     }
     public function update($parametersArray, $moveID) {
         $sql = 'UPDATE moves SET move_name=?, accuracy=?,pp=?,power=? WHERE move_id=?';
         $sql .= ';';
 
-        $stmt = $this->dbManager->prepareQuery($sql);
-        $this->dbManager->bindValue ( $stmt, 1, $parametersArray ["move_name"], PDO::PARAM_STR );
-        $this->dbManager->bindValue ( $stmt, 2, $parametersArray ["accuracy"], PDO::PARAM_INT );
-        $this->dbManager->bindValue ( $stmt, 3, $parametersArray ["pp"], PDO::PARAM_INT );
-        $this->dbManager->bindValue ( $stmt, 4, $parametersArray ["power"], PDO::PARAM_INT );
-        $this->dbManager->bindValue($stmt, 5, $moveID, PDO::PARAM_INT);
-        $res = $this->dbManager->executeQuery ( $stmt );
+        $values = array($parametersArray["move_name"]=>PDO::PARAM_STR, $parametersArray["accuracy"]=>PDO::PARAM_INT,
+            $parametersArray["pp"]=>PDO::PARAM_INT, $parametersArray["power"]=>PDO::PARAM_INT, $moveID=>PARAM_INT);
 
-        return $this->dbManager->getLastInsertedID();
-    }
-    public function delete($moveID) {
-        $sql = 'DELETE FROM users WHERE id=?';
-        $sql .= ';';
-
-        $stmt = $this->dbManager->prepareQuery($sql);
-        $this->dbManager->bindValue($stmt, 1, $moveID, PDO::PARAM_INT);
-        $res = $this->dbManager->executeQuery ( $stmt );
-
+        $this->base_update($sql, $values);
         return $moveID;
     }
+    public function delete($moveID) {
+        return $this->base_delete("moves", "move_id", $moveID);
+    }
     public function purge() {
-        //TODO
-        $sql = 'TRUNCATE moves';
-        $sql .= ';';
-
-        $stmt = $this->dbManager->prepareQuery($sql);
-        $this->dbManager->executeQuery ( $stmt );
-
-        return true;
+        return $this->base_purge("moves");
     }
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM moves ";
-        $sql .= "WHERE move_name LIKE ? ";
+        $sql .= "WHERE move_name LIKE %?% ";
         $sql .= "ORDER BY move_name ";
         $sql .= ";";
-
-        $stmt = $this->dbManager->prepareQuery( $sql );
-        $this->dbManager->bindValue($stmt, 1, "%".$str."%", PDO::PARAM_STR);
-        $this->dbManager->executeQuery ( $stmt );
-
-        $arrayOfResults = $this->dbManager->fetchResults ( $stmt );
-        return $arrayOfResults;
+        
+        return $this->base_search($sql, array($str => PDO::PARAM_STR));
     }
 }
-?>
+
