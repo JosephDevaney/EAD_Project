@@ -7,7 +7,6 @@
  */
 require_once("DB/DAO/BaseDAO.php");
 class PokemonDAO extends BaseDAO{
-    private $dbManager;
     function __construct($DBmgr)
     {
         parent::__construct($DBmgr);
@@ -54,6 +53,10 @@ class PokemonDAO extends BaseDAO{
         $sql .= ";";
 
         return $this->base_search($sql, array($str => PDO::PARAM_STR));
+    }
+
+    public function purge() {
+        return $this->base_purge("pokemon");
     }
     
 }

@@ -6,7 +6,7 @@
  * Time: 13:38
  */
 
-class BaseDAO {
+abstract class BaseDAO {
     protected $dbManager;
 
     function __construct($DBmgr)
