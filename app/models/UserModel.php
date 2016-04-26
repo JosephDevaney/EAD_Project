@@ -52,19 +52,19 @@ class UserModel {
 	}
 	public function updateUsers($userID, $newUserRepresentation) {
 		//TODO
-		var_dump($newUserRepresentation);
+//		var_dump($newUserRepresentation);
 		if (! empty ( $newUserRepresentation ["name"] ) && ! empty ( $newUserRepresentation ["surname"] ) && ! empty ( $newUserRepresentation ["email"] ) && ! empty ( $newUserRepresentation ["password"] )) {
 			/*
 			 * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
 			 */
-					var_dump($newUserRepresentation);
+//					var_dump($newUserRepresentation);
 				
 			if (($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
 					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
 					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["email"], TABLE_USER_EMAIL_LENGTH )) &&
 					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
 						if ($userID = $this->UsersDAO->update( $newUserRepresentation, $userID ))
-							var_dump($userID);
+//							var_dump($userID);
 							return ($userID);
 					}
 		}
