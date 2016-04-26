@@ -14,7 +14,7 @@ class xmlView
 
     public function output(){
         //prepare xml response
-        $this->xmlEncoder->custom_encode();
+        $this->xmlEncoder->encode();
         if($response = $this->xmlEncoder->getUnformattedString())
             $this->slimApp->response->write($response);
     }

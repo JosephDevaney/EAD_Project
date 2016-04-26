@@ -4,18 +4,18 @@ require_once('../simpletest/autorun.php');
 require_once('../app/utility/XmlEncoder.php');
 require_once('RequestTest.php');
 
-class UserRequestTests extends UnitTestCase{
+class MoveRequestTests extends UnitTestCase{
     private $requestTest;
     private $xmlEncoder;
-    private $sampleUser;
+    private $sampleMove;
     private $defaultHeaders;
     private $authHeaders;
     private $route;
 
     function setUp(){
         $this->requestTest = new RequestTest();
-        $this->route = BASE_URL . 'users';
-        $this->sampleUser = array("username" => "test", "name" => "testing", "surname" => "tester", "email" => "tester@test.com", "password" => "testing");
+        $this->route = BASE_URL . 'moves';
+        $this->sampleMove = array("move_name" => "Cut", "accuracy" => "", "power" => "pp", "pp" =>);
         $this->defaultHeaders = array("Accept" => "application/json");
         $this->authHeaders = array("Accept" => "application/json", "username" => "test", "password" => "testing");
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
@@ -77,3 +77,4 @@ class UserRequestTests extends UnitTestCase{
     }
 }
 ?>
+}
