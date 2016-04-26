@@ -15,9 +15,9 @@ class UserRequestTests extends UnitTestCase{
     function setUp(){
         $this->requestTest = new RequestTest();
         $this->route = BASE_URL . 'users';
-        $this->sampleUser = array("username" => "test", "name" => "testing", "surname" => "tester", "email" => "tester@test.com", "password" => "testing");
+        $this->sampleUser = array("username" => "test", "name" => "testing", "surname" => "tester", "email" => "tester@test.com", "password" => "testpwd");
         $this->defaultHeaders = array("Accept" => "application/json");
-        $this->authHeaders = array("Accept" => "application/json", "username" => "test", "password" => "testing");
+        $this->authHeaders = array("Accept" => "application/json", "username" => "test", "password" => "testpwd");
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $this->requestTest->purge($this->route, $this->authHeaders);
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
