@@ -56,7 +56,7 @@ class PokemonModel {
                 ($newPokemon["move2_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move2_id"])) &&
                 ($newPokemon["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move3_id"])) &&
                 ($newPokemon["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move4_id"])) ){
-                if ($newId = $this->UsersDAO->insert ( $newPokemon ))
+                if ($newId = $this->PokemonDAO->insert ( $newPokemon ))
                     return ($newId);
             }
         }
@@ -82,7 +82,7 @@ class PokemonModel {
             ($newPokemon["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move3_id"])) &&
             ($newPokemon["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move4_id"])) ){
 
-                if ($pokemonID = $this->UsersDAO->update( $newPokemonRepresentation, $pokemonID ))
+                if ($pokemonID = $this->PokemonDAO->update( $newPokemonRepresentation, $pokemonID ))
                     return ($pokemonID);
             }
         }

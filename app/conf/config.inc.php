@@ -82,7 +82,7 @@ define("GENERAL_WELCOME_MESSAGE", "Welcome to DIT web-services");
 define("GENERAL_INVALIDROUTE", "Requested route does not exist");
 define("GENERAL_AUTHORISED_MESSAGE", "User Authorised");
 define("GENERAL_UNAUTHORISED_MESSAGE", "Provide valid credentials to perform this action");
-define("GENERAL_PURGE_MESSAGE", "all users deleted");
+define("GENERAL_PURGE_MESSAGE", "all entities deleted");
 
 
 /* representation of a new user in the DB */

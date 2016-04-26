@@ -1,8 +1,8 @@
 <?php
 require_once "DB/pdoDbManager.php";
-require_once "DB/DAO/UsersDAO.php";
+require_once "DB/DAO/MovesDAO.php";
 require_once "Validation.php";
-class MovesModel {
+class MoveModel {
     private $MovesDAO; // list of DAOs used by this model
     private $dbmanager; // dbmanager
     public $apiResponse; // api response
@@ -40,7 +40,7 @@ class MovesModel {
             ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
             ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
             ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
-                if ($newId = $this->MovesDAODAO->insert ( $newMove ))
+                if ($newId = $this->MovesDAO->insert ( $newMove ))
                     return ($newId);
             }
         }
