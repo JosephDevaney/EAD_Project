@@ -36,7 +36,10 @@ abstract class BaseDAO {
     }
     protected function base_insert($sql, $values) {
         // insertion assumes that all the required parameters are defined and set
-        $stmt = $this->prepare_stmt($sql, $values);
+        if(get_class($this) == 'PokemonDAO')
+            $stmt = $this->prepare_stmt_key($sql, $values);
+        else
+            $stmt = $this->prepare_stmt($sql, $values);
 
 //		$stmt = $this->dbManager->prepareQuery ( $sql );
 //		$this->dbManager->bindValue ( $stmt, 1, $parametersArray ["username"], $this->dbManager->STRING_TYPE );
@@ -96,6 +99,14 @@ abstract class BaseDAO {
         return true;
     }
 
+    protected function prepare_stmt_key($sql, $values) {
+        $stmt = $this->dbManager->prepareQuery($sql);
+        foreach($values as $value)
+            $this->dbManager->bindParam($stmt, ':'.$value['label'], $value['value'], $value['type']);
+
+        return ($stmt);
+    }
+
     protected function prepare_stmt($sql, $values) {
         $stmt = $this->dbManager->prepareQuery($sql);
         $i = 1;
@@ -103,5 +114,14 @@ abstract class BaseDAO {
             $this->dbManager->bindValue($stmt, $i++, $value, $type);
 
         return ($stmt);
+    }
+
+    protected function get_types($parametersArray) {
+        $values = array();
+        foreach($parametersArray as $key=>$value){
+            array_push($values, array('label'=>$key,"value"=>$value,"type"=>constant(strtoupper(substr(get_class($this),0,-3). '_' . $key . '_TYPE'))));
+        }
+        var_dump($values);
+        return $values;
     }
 }

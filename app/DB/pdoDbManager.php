@@ -35,6 +35,9 @@ class pdoDbManager {
 	function bindValue($stmt, $pos, $value, $type) {
 		$stmt->bindValue ( $pos, $value, $type );
 	}
+	function bindParam($stmt, $key, $value, $type) {
+		$stmt->bindParam ( $key, $value, $type );
+	}
 	function executeQuery($stmt) {
 		$stmt->execute ();
 	}

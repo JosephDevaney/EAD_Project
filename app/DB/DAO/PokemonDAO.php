@@ -22,13 +22,12 @@ class PokemonDAO extends BaseDAO{
     public function insert($parametersArray) {
         // insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO pokemon (id, name, height, weight, hp, move1_id, move2_id, move3_id, move4_id) ";
-        $sql .= "VALUES (?,?,?,?,?,?,?,?,?) ";
+        $sql .= "VALUES (:id,:name,:height,:weight,:hp,:move1_id,:move2_id,:move3_id,:move4_id) ";
 
-        $values = array($parametersArray["id"]=>PDO::PARAM_INT, $parametersArray["name"]=>PDO::PARAM_STR, $parametersArray["height"]=>PDO::PARAM_INT, $parametersArray["weight"]=>PDO::PARAM_INT,
-            $parametersArray["hp"]=>PDO::PARAM_INT, $parametersArray["move1_id"]=>PDO::PARAM_INT, $parametersArray["move2_id"]=>PDO::PARAM_INT,
-            $parametersArray["move3_id"]=>PDO::PARAM_INT, $parametersArray["move4_id"]=>PDO::PARAM_INT);
+        $values = $this->get_types($parametersArray);
 
-        return ($this->base_insert($sql, $values));
+        $this->base_insert($sql, $values);
+        return $parametersArray['id'];
     }
     public function update($parametersArray, $pokemon_ID) {
         $sql = 'UPDATE pokemon SET name=?, height=?,weight=?,hp=?,move1_id=?,move2_id=?,move3_id=?,move4_id=? WHERE id=?';
