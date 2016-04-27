@@ -90,7 +90,7 @@ define("GENERAL_PURGE_MESSAGE", "all entities deleted");
 define("TABLE_USER_NAME_LENGTH", 25);
 define("TABLE_USER_SURNAME_LENGTH", 25);
 define("TABLE_USER_EMAIL_LENGTH", 50);
-define("TABLE_USER_PASSWORD_LENGTH", 40);
+define("TABLE_USER_PASSWORD_LENGTH", 60);
 
 /* representation of a new move in the DB */
 define("TABLE_MOVE_NAME_LENGTH", 30);

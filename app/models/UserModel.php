@@ -39,9 +39,10 @@ class UserModel {
 			 */
 			
 			if (($this->validationSuite->isLengthStringValid ( $newUser ["name"], TABLE_USER_NAME_LENGTH )) && 
-					($this->validationSuite->isLengthStringValid ( $newUser ["surname"], TABLE_USER_SURNAME_LENGTH )) && 
-					($this->validationSuite->isLengthStringValid ( $newUser ["email"], TABLE_USER_EMAIL_LENGTH )) && 
-					($this->validationSuite->isLengthStringValid ( $newUser ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
+            ($this->validationSuite->isLengthStringValid ( $newUser ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
+            ($this->validationSuite->isLengthStringValid ( $newUser ["email"], TABLE_USER_EMAIL_LENGTH )) &&
+            ($this->validationSuite->isLengthStringValid ( $newUser ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
+                $newUser['password'] = password_hash($newUser['password'], PASSWORD_DEFAULT);
 				if ($newId = $this->UsersDAO->insert ( $newUser ))
 					return ($newId);
 			}
@@ -56,12 +57,13 @@ class UserModel {
 			 * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
 			 */
 			if (($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
-					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
-					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["email"], TABLE_USER_EMAIL_LENGTH )) &&
-					($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
-						if ($userID = $this->UsersDAO->update( $newUserRepresentation, $userID ))
-							return ($userID);
-					}
+            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
+            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["email"], TABLE_USER_EMAIL_LENGTH )) &&
+            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
+                $newUser['password'] = password_hash($newUserRepresentation['password'], PASSWORD_DEFAULT);
+                if ($userID = $this->UsersDAO->update( $newUserRepresentation, $userID ))
+                    return ($userID);
+            }
 		}
 		
 		return (false);
@@ -79,7 +81,7 @@ class UserModel {
 		if (is_string( $username ) && is_string($pwd)) {
 			$users = $this->UsersDAO->searchUsername( $username );
 			foreach ($users as $u) {
-				if ($u["password"] == $pwd)
+				if (password_verify($pwd,$u["password"]))
 					return true;
 			}
 		}
