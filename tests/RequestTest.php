@@ -43,7 +43,7 @@ class RequestTest {
                 var_dump($curl->httpStatusCode);
             }
 
-            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -81,7 +81,7 @@ class RequestTest {
                 var_dump($curl->httpStatusCode);
             }
 
-            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -118,7 +118,7 @@ class RequestTest {
                 var_dump($curl->httpStatusCode);
             }
 
-            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -155,7 +155,7 @@ class RequestTest {
                 var_dump($curl->httpStatusCode);
             }
 
-            echo 'Error: ' . $curl->errorCode . ': ' . $curl->errorMessage;
+            var_dump($curl->errorMessage);
             return false;
         }
     }

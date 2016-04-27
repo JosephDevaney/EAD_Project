@@ -9,12 +9,14 @@ class UserRequestTests extends UnitTestCase{
     private $xmlEncoder;
     private $sampleUser;
     private $defaultHeaders;
+    private $primaryKey;
     private $authHeaders;
     private $route;
 
     function setUp(){
         $this->requestTest = new RequestTest();
         $this->route = BASE_URL . 'users';
+        $this->primaryKey = 'id';
         $this->sampleUser = array("username" => "test", "name" => "testing", "surname" => "tester", "email" => "tester@test.com", "password" => "testpwd");
         $this->defaultHeaders = array("Accept" => "application/json");
         $this->authHeaders = array("Accept" => "application/json", "username" => "test", "password" => "testpwd");
@@ -45,8 +47,8 @@ class UserRequestTests extends UnitTestCase{
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $expectedResults = array();
-        array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
-        array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
+        array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
+        array_push($expectedResults,array_merge(array($this->primaryKey => '2'),$this->sampleUser));
         $this->assertTrue($this->requestTest->get($this->route, $this->authHeaders, HTTPSTATUS_OK, json_encode($expectedResults)));
     }
 
@@ -54,8 +56,8 @@ class UserRequestTests extends UnitTestCase{
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $expectedResults = array();
-        array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
-        array_push($expectedResults,array_merge(array("id" => '2'),$this->sampleUser));
+        array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
+        array_push($expectedResults,array_merge(array($this->primaryKey => '2'),$this->sampleUser));
         $this->xmlEncoder = new XmlEncoder($expectedResults);
         $this->xmlEncoder->encode();
         $headers = $this->authHeaders;
@@ -64,11 +66,13 @@ class UserRequestTests extends UnitTestCase{
     }
 
     public function testUpdateUserJson(){
-        foreach($this->sampleUser as &$value)
-            $value = $value . 'Mod';
+        foreach($this->sampleUser as &$value) {
+            if (is_string($value))
+                $value = $value . 'Mod';
+        }
         $this->requestTest->put($this->route . "/1", json_encode($this->sampleUser), $this->authHeaders);
         $expectedResults = array();
-        array_push($expectedResults,array_merge(array("id" => '1'),$this->sampleUser));
+        array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
         $headers = $this->authHeaders;
         $headers['username'] .= "Mod";
         $headers['password'] .= "Mod";

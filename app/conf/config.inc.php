@@ -30,6 +30,7 @@ define("ACTION_CREATE_POKEMON", 255);
 define("ACTION_UPDATE_POKEMON", 266);
 define("ACTION_DELETE_POKEMON", 277);
 define("ACTION_SEARCH_POKEMON", 288);
+define("ACTION_PURGE_POKEMON", 299);
 
 /* actions for the MOVES REST resource */
 define("ACTION_GET_MOVE", 333);
@@ -115,7 +116,7 @@ define("POKEMON_MOVE4_ID_TYPE", PDO::PARAM_INT);
 
 /* Moves database columns Types */
 define("MOVES_MOVE_ID_TYPE", PDO::PARAM_INT);
-define("MOVES_NAME_TYPE", PDO::PARAM_STR);
+define("MOVES_MOVE_NAME_TYPE", PDO::PARAM_STR);
 define("MOVES_ACCURACY_TYPE", PDO::PARAM_STR);
 define("MOVES_PP_TYPE", PDO::PARAM_STR);
 define("MOVES_POWER_TYPE", PDO::PARAM_STR);

@@ -50,15 +50,15 @@ class MoveModel {
     }
     public function updateMove($moveID, $newMoveRepresentation) {
         // compulsory values
-        if (! empty ( $newMove ["move_name"] ) && ! empty ( $newMove ["accuracy"] ) && ! empty ( $newMove ["pp"] ) && ! empty ( $newMove ["power"] )) {
+        if (! empty ( $newMoveRepresentation ["move_name"] ) && ! empty ( $newMoveRepresentation ["accuracy"] ) && ! empty ( $newMoveRepresentation ["pp"] ) && ! empty ( $newMoveRepresentation ["power"] )) {
             /*
              * the model knows the representation of a move in the database: move_name: varchar(30) accuracy: int(11) pp: int(11) power: int(11)
              */
 
-            if (($this->validationSuite->isLengthStringValid ( $newMove ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
+            if (($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["accuracy"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["pp"])) &&
+            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["power"]))) {
                 if ($moveID = $this->MovesDAO->update( $newMoveRepresentation, $moveID ))
                     return ($moveID);
             }

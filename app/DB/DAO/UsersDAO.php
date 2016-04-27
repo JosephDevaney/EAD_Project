@@ -19,50 +19,40 @@ class UsersDAO extends BaseDAO{
 	public function insert($parametersArray) {
 		// insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO users (username, name, surname, email, password) ";
-        $sql .= "VALUES (?,?,?,?,?) ";
-        $values = array($parametersArray["username"] => PDO::PARAM_STR, $parametersArray["name"] => PDO::PARAM_STR,
-            $parametersArray ["surname"] => PDO::PARAM_STR, $parametersArray ["email"] => PDO::PARAM_STR, $parametersArray["password"] => PDO::PARAM_STR);
+        $sql .= "VALUES (:username,:name,:surname,:email,:password) ";
+        
+        $values = $this->get_types($parametersArray);
 		
 		return ($this->base_insert($sql, $values));
 	}
 	public function update($parametersArray, $userID) {
-		$sql = 'UPDATE users SET username=?, name=?, surname=?,email=?,password=? WHERE id=?';
+		$sql = 'UPDATE users SET username=:username, name=:name, surname=:surname,email=:email,password=:password WHERE id=:id';
 		$sql .= ';';
-
-        $values = array($parametersArray["username"] => PDO::PARAM_STR, $parametersArray ["name"] => PDO::PARAM_STR,
-            $parametersArray ["surname"] => PDO::PARAM_STR, $parametersArray ["email"] => PDO::PARAM_STR,
-            $parametersArray ["password"] => PDO::PARAM_STR, $userID => PDO::PARAM_INT);
+        $parametersArray['id'] = $userID;
+        $values = $this->get_types($parametersArray);
 
         $this->base_update($sql, $values);
 
 		return $userID;
 	}
 	public function delete($userID) {
-		return $this->base_delete("users", "id", $userID);
+		return $this->base_delete("users", "id", array('id'=>$userID));
 	}
 	public function purge() {
 		return $this->base_purge("users");
-	}
-	public function search($str) {
-		$sql = "SELECT * ";
-		$sql .= "FROM users ";
-		$sql .= "WHERE NAME LIKE %?% ";
-		$sql .= "OR SURNAME LIKE %?% ";
-		$sql .= "ORDER BY users.name ";
-		$sql .= ";";
-
-		return $this->base_search($sql, array($str => PDO::PARAM_STR, $str => PDO::PARAM_STR));
 	}
 	
 	public function searchUsername($str) {
 		//TODO
 		$sql = "SELECT * ";
 		$sql .= "FROM users ";
-		$sql .= "WHERE USERNAME = ? ";
-		$sql .= "ORDER BY users.name ";
+		$sql .= "WHERE USERNAME LIKE :username ";
+		$sql .= "ORDER BY username ";
 		$sql .= ";";
+        $str = '%' . $str . '%';
+		$values = $this->get_types(array('username'=>$str));
 
-		return $this->base_search($sql, array($str => PDO::PARAM_STR));
+		return $this->base_search($sql, $values);
 	}
 
 }

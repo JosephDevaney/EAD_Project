@@ -133,6 +133,9 @@ $app->map ( "/pokemon(/:id)", "authenticate", function ($pokemonID = null) use($
             case "DELETE" :
                 $action = ACTION_DELETE_POKEMON;
                 break;
+            case "PURGE" :
+                $action = ACTION_PURGE_POKEMON;
+                break;
             default :
         }
     }

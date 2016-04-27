@@ -65,22 +65,22 @@ class PokemonModel {
         return (false);
     }
     public function updatePokemon($pokemonID, $newPokemonRepresentation) {
-        if (! empty ( $newPokemon ["id"] ) && ! empty ( $newPokemon ["name"] ) && ! empty ( $newPokemon ["weight"] ) &&
-        ! empty ( $newPokemon ["height"] ) && ! empty ( $newPokemon ["hp"] && ! empty ( $newPokemon ["move1_id"] ) )&&
-        ! empty ( $newPokemon ["move2_id"] ) && ! empty ( $newPokemon ["move3_id"] && ! empty ( $newPokemon ["move4_id"] ) )) {
+        if (! empty ( $newPokemonRepresentation["id"] ) && ! empty ( $newPokemonRepresentation ["name"] ) && ! empty ( $newPokemonRepresentation ["weight"] ) &&
+        ! empty ( $newPokemonRepresentation ["height"] ) && ! empty ( $newPokemonRepresentation ["hp"] && ! empty ( $newPokemonRepresentation ["move1_id"] ) )&&
+        ! empty ( $newPokemonRepresentation ["move2_id"] ) && ! empty ( $newPokemonRepresentation ["move3_id"] && ! empty ( $newPokemonRepresentation ["move4_id"] ) )) {
             /*
              * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
              */
 
-            if (($this->validationSuite->isLengthStringValid ( $newPokemon ["name"], TABLE_USER_NAME_LENGTH )) &&
+            if (($this->validationSuite->isLengthStringValid ( $newPokemonRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
             $this->validationSuite->isNumberInRangeValid($pokemonID) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemon["height"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemon["weight"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemon["hp"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemon["move1_id"]) &&
-            ($newPokemon["move2_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move2_id"])) &&
-            ($newPokemon["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move3_id"])) &&
-            ($newPokemon["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move4_id"])) ){
+            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["height"]) &&
+            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["weight"]) &&
+            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["hp"]) &&
+            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move1_id"]) &&
+            ($newPokemonRepresentation["move2_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move2_id"])) &&
+            ($newPokemonRepresentation["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move3_id"])) &&
+            ($newPokemonRepresentation["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move4_id"])) ){
 
                 if ($pokemonID = $this->PokemonDAO->update( $newPokemonRepresentation, $pokemonID ))
                     return ($pokemonID);
@@ -103,6 +103,9 @@ class PokemonModel {
             }
         }
         return (false);
+    }
+    public function purgePokemon() {
+        return $this->PokemonDAO->purge();
     }
     public function __destruct() {
         $this->PokemonDAO = null;

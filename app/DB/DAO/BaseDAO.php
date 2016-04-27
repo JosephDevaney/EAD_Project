@@ -15,12 +15,12 @@ abstract class BaseDAO {
     }
 
     protected function base_get($id = null, $table, $col, $orderCol) {
-        $values = array();
+        $params = array();
         $sql = "SELECT * ";
         $sql .= "FROM " . $table . " ";
         if ($id != null) {
-            $sql .= "WHERE " . $table . "." . $col . "=? ";
-            $values = array($id => PDO::PARAM_INT);
+            $sql .= "WHERE " . $table . "." . $col . "=:". $col ." ";
+            $params = array($col=>$id);
         }
 
         $sql .= "ORDER BY " . $table ."." . $orderCol;
@@ -28,6 +28,7 @@ abstract class BaseDAO {
 
 //		$stmt = $this->dbManager->prepareQuery ( $sql );
 //		$this->dbManager->bindValue ( $stmt, 1, $id, $this->dbManager->INT_TYPE );
+        $values = $this->get_types($params);
         $stmt = $this->prepare_stmt($sql, $values);
         $this->dbManager->executeQuery ( $stmt );
         $rows = $this->dbManager->fetchResults ( $stmt );
@@ -36,10 +37,7 @@ abstract class BaseDAO {
     }
     protected function base_insert($sql, $values) {
         // insertion assumes that all the required parameters are defined and set
-        if(get_class($this) == 'PokemonDAO')
-            $stmt = $this->prepare_stmt_key($sql, $values);
-        else
-            $stmt = $this->prepare_stmt($sql, $values);
+        $stmt = $this->prepare_stmt($sql, $values);
 
 //		$stmt = $this->dbManager->prepareQuery ( $sql );
 //		$this->dbManager->bindValue ( $stmt, 1, $parametersArray ["username"], $this->dbManager->STRING_TYPE );
@@ -67,16 +65,19 @@ abstract class BaseDAO {
         return true;
     }
     
-    protected function base_delete($table, $col, $id) {
-        $sql = "DELETE FROM " . $table . " WHERE " . $col . "=?";
+    protected function base_delete($table, $col, $params) {
+
+        $values = $this->get_types($params);
+
+        $sql = "DELETE FROM " . $table . " WHERE " . $col . "=:". $col;
         $sql .= ';';
 
 //		$stmt = $this->dbManager->prepareQuery($sql);
 //		$this->dbManager->bindValue($stmt, 1, $userID, PDO::PARAM_INT);
-        $stmt = $this->prepare_stmt($sql, array($id => PDO::PARAM_INT));
+        $stmt = $this->prepare_stmt($sql, $values);
         $this->dbManager->executeQuery ( $stmt );
 
-        return $id;
+        return  $values[0]['value'];
     }
 
     protected function base_search($sql, $values) {
@@ -99,7 +100,7 @@ abstract class BaseDAO {
         return true;
     }
 
-    protected function prepare_stmt_key($sql, $values) {
+    protected function prepare_stmt($sql, $values) {
         $stmt = $this->dbManager->prepareQuery($sql);
         foreach($values as $value)
             $this->dbManager->bindParam($stmt, ':'.$value['label'], $value['value'], $value['type']);
@@ -107,21 +108,23 @@ abstract class BaseDAO {
         return ($stmt);
     }
 
-    protected function prepare_stmt($sql, $values) {
-        $stmt = $this->dbManager->prepareQuery($sql);
-        $i = 1;
-        foreach($values as $value => $type)
-            $this->dbManager->bindValue($stmt, $i++, $value, $type);
-
-        return ($stmt);
-    }
+//    protected function prepare_stmt($sql, $values) {
+//        $stmt = $this->dbManager->prepareQuery($sql);
+//        $i = 1;
+//        foreach($values as $value => $type)
+//            $this->dbManager->bindValue($stmt, $i++, $value, $type);
+//
+//        return ($stmt);
+//    }
 
     protected function get_types($parametersArray) {
         $values = array();
         foreach($parametersArray as $key=>$value){
-            array_push($values, array('label'=>$key,"value"=>$value,"type"=>constant(strtoupper(substr(get_class($this),0,-3). '_' . $key . '_TYPE'))));
+            $constantString = strtoupper(substr(get_class($this),0,-3). '_' . $key . '_TYPE');
+            if(defined($constantString))
+                array_push($values, array('label'=>$key,"value"=>$value,"type"=>constant($constantString)));
         }
-        var_dump($values);
+        //var_dump($values);
         return $values;
     }
 }

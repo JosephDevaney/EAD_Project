@@ -34,6 +34,9 @@ class PokemonController {
             case ACTION_DELETE_POKEMON :
                 $this->deletePokemon ( $id );
                 break;
+            case ACTION_PURGE_POKEMON :
+                $this->purgePokemon();
+                break;
             case ACTION_SEARCH_POKEMON :
                 $string = $parameters ["SearchingString"];
                 $this->searchPokemon ( $string );
@@ -109,7 +112,22 @@ class PokemonController {
             $this->model->apiResponse = $Message;
         }
     }
-
+    private function purgePokemon() {
+        //TODO
+        if ($this->model->purgePokemon()) {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => GENERAL_PURGE_MESSAGE
+            );
+            $this->model->apiResponse = $Message;
+        } else {
+            $this->slimApp->response ()->setStatus ( HTTPSTATUS_BADREQUEST );
+            $Message = array (
+                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
+            );
+            $this->model->apiResponse = $Message;
+        }
+    }
     private function updatePokemon($pokemonID, $parameters) {
         //TODO
         if ($pokemonID = $this->model->updatePokemon ( $pokemonID, $parameters )) {

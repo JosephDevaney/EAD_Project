@@ -19,25 +19,26 @@ class MovesDAO extends BaseDAO {
     public function insert($parametersArray) {
         // insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO moves (move_name, accuracy, pp, power) ";
-        $sql .= "VALUES (?,?,?,?) ";
+        $sql .= "VALUES (:move_name,:accuracy,:pp,:power) ";
+        $sql .= ';';
 
-        $values = array($parametersArray["move_name"]=>PDO::PARAM_STR, $parametersArray["accuracy"]=>PDO::PARAM_INT,
-            $parametersArray["pp"]=>PDO::PARAM_INT, $parametersArray["power"]=>PDO::PARAM_INT);
+        $values = $this->get_types($parametersArray);
         
         return ($this->base_insert($sql, $values));
     }
     public function update($parametersArray, $moveID) {
-        $sql = 'UPDATE moves SET move_name=?, accuracy=?,pp=?,power=? WHERE move_id=?';
+        $sql = 'UPDATE moves SET move_name=:move_name, accuracy=:accuracy,pp=:pp,power=:power WHERE move_id=:move_id';
         $sql .= ';';
 
-        $values = array($parametersArray["move_name"]=>PDO::PARAM_STR, $parametersArray["accuracy"]=>PDO::PARAM_INT,
-            $parametersArray["pp"]=>PDO::PARAM_INT, $parametersArray["power"]=>PDO::PARAM_INT, $moveID=>PARAM_INT);
+        $parametersArray['move_id'] = $moveID;
+
+        $values = $this->get_types($parametersArray);
 
         $this->base_update($sql, $values);
         return $moveID;
     }
     public function delete($moveID) {
-        return $this->base_delete("moves", "move_id", $moveID);
+        return $this->base_delete("moves", "move_id", array("move_id"=>$moveID));
     }
     public function purge() {
         return $this->base_purge("moves");
@@ -45,11 +46,13 @@ class MovesDAO extends BaseDAO {
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM moves ";
-        $sql .= "WHERE move_name LIKE %?% ";
+        $sql .= "WHERE move_name LIKE %:move_name% ";
         $sql .= "ORDER BY move_name ";
         $sql .= ";";
-        
-        return $this->base_search($sql, array($str => PDO::PARAM_STR));
+
+        $values = $this->get_types(array('move_name'=>$str));
+
+        return $this->base_search($sql, $values);
     }
 }
 

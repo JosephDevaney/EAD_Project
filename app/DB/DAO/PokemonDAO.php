@@ -30,28 +30,28 @@ class PokemonDAO extends BaseDAO{
         return $parametersArray['id'];
     }
     public function update($parametersArray, $pokemon_ID) {
-        $sql = 'UPDATE pokemon SET name=?, height=?,weight=?,hp=?,move1_id=?,move2_id=?,move3_id=?,move4_id=? WHERE id=?';
+        $sql = 'UPDATE pokemon SET id=:id, name=:name, height=:height,weight=:weight,hp=:hp,move1_id=:move1_id,move2_id=:move2_id,move3_id=:move3_id,move4_id=:move4_id WHERE id=:id';
         $sql .= ';';
 
-        $values = array($parametersArray["name"]=>PDO::PARAM_STR, $parametersArray["height"]=>PDO::PARAM_INT, $parametersArray["weight"]=>PDO::PARAM_INT,
-            $parametersArray["hp"]=>PDO::PARAM_INT, $parametersArray["move1_id"]=>PDO::PARAM_INT, $parametersArray["move2_id"]=>PDO::PARAM_INT,
-            $parametersArray["move3_id"]=>PDO::PARAM_INT, $parametersArray["move4_id"]=>PDO::PARAM_INT, $pokemon_ID=>PDO::PARAM_INT);
+        $parametersArray['id'] = $pokemon_ID;
+        $values = $this->get_types($parametersArray);
 
         $this->base_update($sql, $values);
 
         return $pokemon_ID;
     }
     public function delete($pokemon_id) {
-        return $this->base_delete("pokemon", "id", $pokemon_id);
+        return $this->base_delete("pokemon", "id", array('id'=>$pokemon_id));
     }
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM pokemon ";
-        $sql .= "WHERE NAME LIKE %?% ";
+        $sql .= "WHERE NAME LIKE %:name% ";
         $sql .= "ORDER BY pokemon.id ";
         $sql .= ";";
 
-        return $this->base_search($sql, array($str => PDO::PARAM_STR));
+        $values = $this->get_types(array('name'=>$str));
+        return $this->base_search($sql, $values);
     }
 
     public function purge() {
