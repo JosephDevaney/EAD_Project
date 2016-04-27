@@ -94,7 +94,15 @@ define("TABLE_USER_PASSWORD_LENGTH", 40);
 /* representation of a new move in the DB */
 define("TABLE_MOVE_NAME_LENGTH", 30);
 
+/* Users database columns Types */
+define("USERS_ID_TYPE", PDO::PARAM_INT);
+define("USERS_USERNAME_TYPE", PDO::PARAM_STR);
+define("USERS_NAME_TYPE", PDO::PARAM_STR);
+define("USERS_SURNAME_TYPE", PDO::PARAM_STR);
+define("USERS_EMAIL_TYPE", PDO::PARAM_STR);
+define("USERS_PASSWORD_TYPE", PDO::PARAM_STR);
 
+/* Pokemon database columns Types */
 define("POKEMON_ID_TYPE", PDO::PARAM_INT);
 define("POKEMON_NAME_TYPE", PDO::PARAM_STR);
 define("POKEMON_HEIGHT_TYPE", PDO::PARAM_INT);
@@ -104,5 +112,12 @@ define("POKEMON_MOVE1_ID_TYPE", PDO::PARAM_INT);
 define("POKEMON_MOVE2_ID_TYPE", PDO::PARAM_INT);
 define("POKEMON_MOVE3_ID_TYPE", PDO::PARAM_INT);
 define("POKEMON_MOVE4_ID_TYPE", PDO::PARAM_INT);
+
+/* Moves database columns Types */
+define("MOVES_MOVE_ID_TYPE", PDO::PARAM_INT);
+define("MOVES_NAME_TYPE", PDO::PARAM_STR);
+define("MOVES_ACCURACY_TYPE", PDO::PARAM_STR);
+define("MOVES_PP_TYPE", PDO::PARAM_STR);
+define("MOVES_POWER_TYPE", PDO::PARAM_STR);
 
 ?>
