@@ -5,9 +5,9 @@ abstract class BaseModel {
     private $DAO; // list of DAOs used by this model
     private $dbmanager; // dbmanager
     private $extendingClass;
-    protected $apiResponse; // api response
+    public $apiResponse; // api response
     private $validationSuite; // contains functions for validating inputs
-    protected function __construct() {
+    public function __construct() {
         $this->extendingClass = substr(get_class($this),0,-5);
         $DaoName = $this->extendingClass . 'DAO';
         require_once "DB/DAO/". $DaoName .".php";
@@ -45,7 +45,7 @@ abstract class BaseModel {
                         $pass = $this->validationSuite->isNumberInRangeValid( $value ["value"]);
                 }
                 else if($value['type'] == 'string'){
-                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($value['label']) .'_LENGTH' ));
+                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($this->extendingClass . '_' .$value['label']) .'_LENGTH' ));
                 }
 
             }
@@ -105,7 +105,7 @@ abstract class BaseModel {
 
         return false;
     }
-    protected function __destruct() {
+    public function __destruct() {
         $this->DAO = null;
         $this->dbmanager->closeConnection ();
     }

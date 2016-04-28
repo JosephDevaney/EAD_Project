@@ -1,10 +1,10 @@
 <?php
 abstract class BaseController {
-    protected $slimApp;
-    protected $model;
-    protected $requestBody;
+    public $slimApp;
+    public $model;
+    public $requestBody;
 
-    protected function __construct($model, $slimApp) {
+    public function __construct($model, $slimApp) {
         $this->model = $model;
         $this->slimApp = $slimApp;
         $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true ); // this must contain the representation of the new move
