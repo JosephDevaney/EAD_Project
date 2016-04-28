@@ -1,5 +1,6 @@
 <?php
 require_once('models/BaseModel.php');
+require_once "DB/DAO/MoveDAO.php";
 
 class PokemonModel extends BaseModel {
     
@@ -21,6 +22,26 @@ class PokemonModel extends BaseModel {
             array('label'=>'move2_id','value'=>$params ["move2_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
             array('label'=>'move3_id','value'=>$params ["move3_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
             array('label'=>'move4_id','value'=>$params ["move4_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000));
+    }
+
+    public function getAll() {
+        return ($this->getPokemonMoves(parent::getAll ()));
+    }
+    public function get($PokemonID) {
+        return ($this->getPokemonMoves(parent::get ( $PokemonID )));
+    }
+
+    private function getPokemonMoves($pokemonList){
+        $moveDAO = new MoveDAO($this->dbmanager);
+        $newList = array();
+        foreach($pokemonList as &$pokemon) {
+            for ($i = 1; $i < 5; ++$i) {
+                $mNum = "move".$i."_id";
+                $pokemon[$mNum] = $moveDAO->get($pokemon[$mNum])[0];
+            }
+            array_push($newList, $pokemon);
+        }
+        return ($newList);
     }
 
 }
