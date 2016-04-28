@@ -11,6 +11,39 @@ class RequestTest {
     function __construct() {
     }
 
+    public function getDecoded($url, $headers, $expectedStatus = false){
+        $curl = new Curl();
+        foreach ($headers as $key => $value){
+            $curl->setHeader($key, $value);
+        }
+        $curl->get($url);
+        if($curl->httpStatusCode == $expectedStatus)
+        {
+            if($curl->response) {
+                $responseFormat  = $curl->responseHeaders['Content-Type'];
+                if($responseFormat == 'application/json'){
+                    return json_decode($curl->response);
+                }
+                else if($responseFormat == 'application/xml'){
+                    $xml = simplexml_load_string($curl->response, "SimpleXMLElement", LIBXML_NOCDATA);
+                    $json = json_encode($xml);
+                    return json_decode($json,TRUE);
+                }
+                else
+                    die('response content-type not supported, json and xml only');
+            }
+        }
+        else {
+            echo 'Error: Expected:';
+            var_dump($expectedStatus);
+            echo'Got:';
+            var_dump($curl->httpStatusCode);
+        }
+
+        var_dump($curl->errorMessage);
+        return false;
+    }
+
     public function get($url, $headers, $expectedStatus = false, $expectedResponse = false, $similarityPercentage = 100){
         $curl = new Curl();
         foreach ($headers as $key => $value){
