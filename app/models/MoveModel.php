@@ -1,93 +1,37 @@
 <?php
-require_once "DB/pdoDbManager.php";
-require_once "DB/DAO/MovesDAO.php";
-require_once "Validation.php";
-class MoveModel {
-    private $MovesDAO; // list of DAOs used by this model
-    private $dbmanager; // dbmanager
-    public $apiResponse; // api response
-    private $validationSuite; // contains functions for validating inputs
-    public function __construct() {
-        $this->dbmanager = new pdoDbManager ();
-        $this->MovesDAO = new MovesDAO ( $this->dbmanager );
-        $this->dbmanager->openConnection ();
-        $this->validationSuite = new Validation ();
-    }
+
+class MoveModel extends BaseModel {
+
     public function getMoves() {
-        return ($this->MovesDAO->get ());
+        return $this->getAll();
     }
-    public function getMove($userID) {
-        if (is_numeric ( $userID ))
-            return ($this->MovesDAO->get ( $userID ));
-
-        return false;
+    public function getMove($moveID) {
+        return $this->get($moveID);
     }
-    /**
-     *
-     * @param array $MoveRepresentation:
-     *        	an associative array containing the detail of the new move
-     */
     public function createNewMove($newMove) {
-        // validation of the values of the new move
+        $newMoveValidation = array(array('label'=>'move_name','value'=>$newMove ["move_name"], 'type'=>'string'),
+            array('label'=>'accuracy','value'=>$newMove ["accuracy"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'pp','value'=>$newMove ["pp"], 'type'=>'numeric', 'min'=>0, 'max'=>100),
+            array('label'=>'power','value'=>$newMove ["power"], 'type'=>'numeric', 'min'=>0, 'max'=>1000));
 
-        // compulsory values
-        if (! empty ( $newMove ["move_name"] ) && ! empty ( $newMove ["accuracy"] ) && ! empty ( $newMove ["pp"] ) && ! empty ( $newMove ["power"] )) {
-            /*
-             * the model knows the representation of a move in the database: move_name: varchar(30) accuracy: int(11) pp: int(11) power: int(11)
-             */
-
-            if (($this->validationSuite->isLengthStringValid ( $newMove ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["accuracy"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["pp"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMove ["power"]))) {
-                if ($newId = $this->MovesDAO->insert ( $newMove ))
-                    return ($newId);
-            }
-        }
-
-        // if validation fails or insertion fails
-        return (false);
+        return $this->create($newMoveValidation);
     }
     public function updateMove($moveID, $newMoveRepresentation) {
-        // compulsory values
-        if (! empty ( $newMoveRepresentation ["move_name"] ) && ! empty ( $newMoveRepresentation ["accuracy"] ) && ! empty ( $newMoveRepresentation ["pp"] ) && ! empty ( $newMoveRepresentation ["power"] )) {
-            /*
-             * the model knows the representation of a move in the database: move_name: varchar(30) accuracy: int(11) pp: int(11) power: int(11)
-             */
+        $newMoveValidation = array(array('label'=>'move_name','value'=>$newMoveRepresentation ["move_name"], 'type'=>'string'),
+            array('label'=>'accuracy','value'=>$newMoveRepresentation ["accuracy"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'pp','value'=>$newMoveRepresentation ["pp"], 'type'=>'numeric', 'min'=>0, 'max'=>100),
+            array('label'=>'power','value'=>$newMoveRepresentation ["power"], 'type'=>'numeric', 'min'=>0, 'max'=>1000));
 
-            if (($this->validationSuite->isLengthStringValid ( $newMoveRepresentation ["move_name"], TABLE_MOVE_NAME_LENGTH )) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["accuracy"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["pp"])) &&
-            ($this->validationSuite->isNumberInRangeValid( $newMoveRepresentation ["power"]))) {
-                if ($moveID = $this->MovesDAO->update( $newMoveRepresentation, $moveID ))
-                    return ($moveID);
-            }
-        }
-
-        return (false);
+        return $this->update($moveID, $newMoveValidation);
     }
     public function deleteMove($moveID) {
-        //TODO
-        if ($moveID != null) {
-            if ($id = $this->MovesDAO->delete($moveID)) {
-                return ($id);
-            }
-        }
-        return (false);
+        return $this->deleteMove($moveID);
     }
     public function purgeMoves() {
-        return $this->MovesDAO->purge();
+        return $this->purge();
     }
     public function searchMoves($string) {
-        //TODO
-        if (is_string( $string ))
-            return ($this->MovesDAO->search( $string ));
-
-        return false;
-    }
-    public function __destruct() {
-        $this->MovesDAO = null;
-        $this->dbmanager->closeConnection ();
+        return $this->search($string);
     }
 }
 ?>
