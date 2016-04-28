@@ -95,6 +95,9 @@ define("TABLE_USER_PASSWORD_LENGTH", 60);
 /* representation of a new move in the DB */
 define("TABLE_MOVE_NAME_LENGTH", 30);
 
+/* representation of a new pokemon in the DB */
+define("TABLE_POKEMON_NAME_LENGTH", 30);
+
 /* Users database columns Types */
 define("USER_ID_TYPE", PDO::PARAM_INT);
 define("USER_USERNAME_TYPE", PDO::PARAM_STR);
