@@ -2,11 +2,13 @@
 require_once "DB/pdoDbManager.php";
 require_once "Validation.php";
 abstract class BaseModel {
+
     protected $DAO; // list of DAOs used by this model
     protected $dbmanager; // dbmanager
     protected $extendingClass;
     public $apiResponse; // api response
     protected $validationSuite; // contains functions for validating inputs
+
     public function __construct() {
         $this->extendingClass = substr(get_class($this),0,-5);
         $DaoName = $this->extendingClass . 'DAO';
@@ -45,7 +47,7 @@ abstract class BaseModel {
                         $pass = $this->validationSuite->isNumberInRangeValid( $value ["value"]);
                 }
                 else if($value['type'] == 'string'){
-                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($value['label']) .'_LENGTH' ));
+                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($this->extendingClass . '_' .$value['label']) .'_LENGTH' ));
                 }
 
             }

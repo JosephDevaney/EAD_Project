@@ -91,12 +91,14 @@ define("TABLE_USER_NAME_LENGTH", 25);
 define("TABLE_USER_SURNAME_LENGTH", 25);
 define("TABLE_USER_EMAIL_LENGTH", 50);
 define("TABLE_USER_PASSWORD_LENGTH", 60);
+define("TABLE_USER_USERNAME_LENGTH", 50);
 
 /* representation of a new move in the DB */
-define("TABLE_MOVE_NAME_LENGTH", 30);
+define("TABLE_MOVE_MOVE_NAME_LENGTH", 30);
 
 /* representation of a new pokemon in the DB */
 define("TABLE_POKEMON_NAME_LENGTH", 30);
+
 
 /* Users database columns Types */
 define("USER_ID_TYPE", PDO::PARAM_INT);
