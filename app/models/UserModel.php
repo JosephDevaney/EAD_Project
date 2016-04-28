@@ -1,26 +1,13 @@
 <?php
-require_once "DB/pdoDbManager.php";
-require_once "DB/DAO/UsersDAO.php";
-require_once "Validation.php";
-class UserModel {
-	private $UsersDAO; // list of DAOs used by this model
-	private $dbmanager; // dbmanager
-	public $apiResponse; // api response
-	private $validationSuite; // contains functions for validating inputs
-	public function __construct() {
-		$this->dbmanager = new pdoDbManager ();
-		$this->UsersDAO = new UsersDAO ( $this->dbmanager );
-		$this->dbmanager->openConnection ();
-		$this->validationSuite = new Validation ();
-	}
+require_once('models/BaseModel.php');
+
+class UserModel extends BaseModel{
+    
 	public function getUsers() {
-		return ($this->UsersDAO->get ());
+		return ($this->getAll ());
 	}
 	public function getUser($userID) {
-		if (is_numeric ( $userID ))
-			return ($this->UsersDAO->get ( $userID ));
-		
-		return false;
+        return ($this->get($userID));
 	}
 
 	/**
@@ -31,49 +18,26 @@ class UserModel {
 	 */
 	public function createNewUser($newUser) {
 		// validation of the values of the new user
+
+        $newUserValidation = array(array('label'=>'username','value'=>$newUser ["username"], 'type'=>'string'),
+            array('label'=>'name','value'=>$newUser ["name"], 'type'=>'string'),
+            array('label'=>'surname','value'=>$newUser ["surname"], 'type'=>'string'),
+            array('label'=>'email','value'=>$newUser ["email"], 'type'=>'string'),
+            array('label'=>'password','value'=>$newUser ["password"], 'type'=>'string'));
 		
-		// compulsory values
-		if (! empty ( $newUser ["name"] ) && ! empty ( $newUser ["surname"] ) && ! empty ( $newUser ["email"] ) && ! empty ( $newUser ["password"] )) {
-			/*
-			 * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
-			 */
-			
-			if (($this->validationSuite->isLengthStringValid ( $newUser ["name"], TABLE_USER_NAME_LENGTH )) && 
-            ($this->validationSuite->isLengthStringValid ( $newUser ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
-            ($this->validationSuite->isLengthStringValid ( $newUser ["email"], TABLE_USER_EMAIL_LENGTH )) &&
-            ($this->validationSuite->isLengthStringValid ( $newUser ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
-                //$newUser['password'] = password_hash($newUser['password'], PASSWORD_DEFAULT);
-				if ($newId = $this->UsersDAO->insert ( $newUser ))
-					return ($newId);
-			}
-		}
-		
-		// if validation fails or insertion fails
-		return (false);
+        return ($this->create($newUserValidation));
 	}
 	public function updateUsers($userID, $newUserRepresentation) {
-		if (! empty ( $newUserRepresentation ["name"] ) && ! empty ( $newUserRepresentation ["surname"] ) && ! empty ( $newUserRepresentation ["email"] ) && ! empty ( $newUserRepresentation ["password"] )) {
-			/*
-			 * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
-			 */
-			if (($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
-            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["surname"], TABLE_USER_SURNAME_LENGTH )) &&
-            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["email"], TABLE_USER_EMAIL_LENGTH )) &&
-            ($this->validationSuite->isLengthStringValid ( $newUserRepresentation ["password"], TABLE_USER_PASSWORD_LENGTH ))) {
-                //$newUser['password'] = password_hash($newUserRepresentation['password'], PASSWORD_DEFAULT);
-                if ($userID = $this->UsersDAO->update( $newUserRepresentation, $userID ))
-                    return ($userID);
-            }
-		}
-		
-		return (false);
+        $newUserValidation = array(array('label'=>'username','value'=>$newUserRepresentation ["username"], 'type'=>'string'),
+            array('label'=>'name','value'=>$newUserRepresentation ["name"], 'type'=>'string'),
+            array('label'=>'surname','value'=>$newUserRepresentation ["surname"], 'type'=>'string'),
+            array('label'=>'email','value'=>$newUserRepresentation ["email"], 'type'=>'string'),
+            array('label'=>'password','value'=>$newUserRepresentation ["password"], 'type'=>'string'));
+
+        return ($this->update($userID, $newUserValidation));
 	}
 	public function searchUsers($string) {
-		//TODO
-		if (is_string( $string ))
-			return ($this->UsersDAO->search( $string ));
-		
-		return false;
+        return $this->search($string);
 	}
 	public function authenticateUser($parameters) {
 		$username = $parameters["username"];
@@ -90,20 +54,9 @@ class UserModel {
 		return false;
 	}
 	public function deleteUser($userID) {
-		//TODO
-		if ($userID != null) {
-			if ($id = $this->UsersDAO->delete($userID)) {
-				return ($id);
-			}
-		}
-		return (false);
+        return $this->delete($userID);
 	}
 	public function purgeUsers() {
-        return $this->UsersDAO->purge();
-	}
-	public function __destruct() {
-		$this->UsersDAO = null;
-		$this->dbmanager->closeConnection ();
+        return $this->purge();
 	}
 }
-?>

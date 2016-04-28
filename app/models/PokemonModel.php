@@ -6,28 +6,15 @@
  * Time: 18:18
  */
 
-require_once "DB/pdoDbManager.php";
-require_once "DB/DAO/PokemonDAO.php";
-require_once "Validation.php";
-class PokemonModel {
-    private $PokemonDAO; // list of DAOs used by this model
-    private $dbmanager; // dbmanager
-    public $apiResponse; // api response
-    private $validationSuite; // contains functions for validating inputs
-    public function __construct() {
-        $this->dbmanager = new pdoDbManager ();
-        $this->PokemonDAO= new PokemonDAO ( $this->dbmanager );
-        $this->dbmanager->openConnection ();
-        $this->validationSuite = new Validation ();
-    }
+require_once('models/BaseModel.php');
+
+class PokemonModel extends BaseModel {
+    
     public function getAllPokemon() {
-        return ($this->PokemonDAO->get ());
+        return ($this->getAll ());
     }
     public function getPokemon($PokemonID) {
-        if (is_numeric ( $PokemonID ))
-            return ($this->PokemonDAO->get ( $PokemonID ));
-
-        return false;
+        return $this->get($PokemonID);
     }
 
     /**
@@ -38,77 +25,39 @@ class PokemonModel {
      */
     public function createNewPokemon($newPokemon) {
         // validation of the values of the new user
+        $newPokemonValidation = array(array('label'=>'id','value'=>$newPokemon ["id"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'name','value'=>$newPokemon ["name"], 'type'=>'string'),
+            array('label'=>'weight','value'=>$newPokemon ["weight"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'height','value'=>$newPokemon ["height"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'hp','value'=>$newPokemon ["hp"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move1_id','value'=>$newPokemon ["move1_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move2_id','value'=>$newPokemon ["move2_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move3_id','value'=>$newPokemon ["move3_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move4_id','value'=>$newPokemon ["move4_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000));
 
-        // compulsory values
-        if (! empty ( $newPokemon ["id"] ) && ! empty ( $newPokemon ["name"] ) && ! empty ( $newPokemon ["weight"] ) &&
-            ! empty ( $newPokemon ["height"] ) && ! empty ( $newPokemon ["hp"] && ! empty ( $newPokemon ["move1_id"] ) )&&
-            ! empty ( $newPokemon ["move2_id"] ) && ! empty ( $newPokemon ["move3_id"] && ! empty ( $newPokemon ["move4_id"] ) )) {
-            /*
-             * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
-             */
+        return $this->create($newPokemonValidation);
 
-            if (($this->validationSuite->isLengthStringValid ( $newPokemon ["name"], TABLE_USER_NAME_LENGTH )) &&
-                $this->validationSuite->isNumberInRangeValid($newPokemon["id"]) &&
-                $this->validationSuite->isNumberInRangeValid($newPokemon["height"]) &&
-                $this->validationSuite->isNumberInRangeValid($newPokemon["weight"]) &&
-                $this->validationSuite->isNumberInRangeValid($newPokemon["hp"]) &&
-                $this->validationSuite->isNumberInRangeValid($newPokemon["move1_id"]) &&
-                ($newPokemon["move2_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move2_id"])) &&
-                ($newPokemon["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move3_id"])) &&
-                ($newPokemon["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemon["move4_id"])) ){
-                if ($newId = $this->PokemonDAO->insert ( $newPokemon ))
-                    return ($newId);
-            }
-        }
-
-        // if validation fails or insertion fails
-        return (false);
     }
     public function updatePokemon($pokemonID, $newPokemonRepresentation) {
-        if (! empty ( $newPokemonRepresentation["id"] ) && ! empty ( $newPokemonRepresentation ["name"] ) && ! empty ( $newPokemonRepresentation ["weight"] ) &&
-        ! empty ( $newPokemonRepresentation ["height"] ) && ! empty ( $newPokemonRepresentation ["hp"] && ! empty ( $newPokemonRepresentation ["move1_id"] ) )&&
-        ! empty ( $newPokemonRepresentation ["move2_id"] ) && ! empty ( $newPokemonRepresentation ["move3_id"] && ! empty ( $newPokemonRepresentation ["move4_id"] ) )) {
-            /*
-             * the model knows the representation of a user in the database and this is: name: varchar(25) surname: varchar(25) email: varchar(50) password: varchar(40)
-             */
+        $newPokemonValidation = array(array('label'=>'id','value'=>$newPokemonRepresentation ["id"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'name','value'=>$newPokemonRepresentation ["name"], 'type'=>'string'),
+            array('label'=>'weight','value'=>$newPokemonRepresentation ["weight"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'height','value'=>$newPokemonRepresentation ["height"], 'type'=>'numeric', 'min'=>0, 'max'=>1000),
+            array('label'=>'hp','value'=>$newPokemonRepresentation ["hp"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move1_id','value'=>$newPokemonRepresentation ["move1_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move2_id','value'=>$newPokemonRepresentation ["move2_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move3_id','value'=>$newPokemonRepresentation ["move3_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000),
+            array('label'=>'move4_id','value'=>$newPokemonRepresentation ["move4_id"], 'type'=>'numeric', 'min'=>0, 'max'=>10000));
 
-            if (($this->validationSuite->isLengthStringValid ( $newPokemonRepresentation ["name"], TABLE_USER_NAME_LENGTH )) &&
-            $this->validationSuite->isNumberInRangeValid($pokemonID) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["height"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["weight"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["hp"]) &&
-            $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move1_id"]) &&
-            ($newPokemonRepresentation["move2_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move2_id"])) &&
-            ($newPokemonRepresentation["move3_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move3_id"])) &&
-            ($newPokemonRepresentation["move4_id"] == null || $this->validationSuite->isNumberInRangeValid($newPokemonRepresentation["move4_id"])) ){
-
-                if ($pokemonID = $this->PokemonDAO->update( $newPokemonRepresentation, $pokemonID ))
-                    return ($pokemonID);
-            }
-        }
-
-        return (false);
+        return $this->update($pokemonID, $newPokemonValidation);
     }
     public function searchPokemon($string) {
-        //TODO
-        if (is_string( $string ))
-            return ($this->PokemonDAO->search( $string ));
-
-        return false;
+        return $this->search($string);
     }
     public function deletePokemon($pokemonID) {
-        if ($pokemonID != null) {
-            if ($id = $this->PokemonDAO->delete($pokemonID)) {
-                return ($id);
-            }
-        }
-        return (false);
+        return $this->delete($pokemonID);
     }
     public function purgePokemon() {
-        return $this->PokemonDAO->purge();
-    }
-    public function __destruct() {
-        $this->PokemonDAO = null;
-        $this->dbmanager->closeConnection ();
+        return $this->purge();
     }
 }
