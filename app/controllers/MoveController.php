@@ -1,4 +1,5 @@
 <?php
+require_once ("controllers/BaseController.php");
 class MoveController extends BaseController {
 
     public function __construct($model, $action = null, $slimApp, $parameters = null) {

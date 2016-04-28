@@ -11,7 +11,7 @@ abstract class BaseController {
     }
 
     protected function getAll() {
-        $response = $this->model->get();
+        $response = $this->model->getAll();
         if ($response != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $this->model->apiResponse = $response;
@@ -40,7 +40,7 @@ abstract class BaseController {
     }
 
     protected function create($new) {
-        if ($newId = $this->model->create ( $new)) {
+        if ($newId = $this->model->createNew ( $new)) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_CREATED,
@@ -90,7 +90,7 @@ abstract class BaseController {
     }
     protected function update($id, $parameters) {
         //TODO
-        if ($newId = $this->model->update ( $id, $parameters )) {
+        if ($newId = $this->model->updateExisting ( $id, $parameters )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
                 GENERAL_MESSAGE_LABEL => GENERAL_RESOURCE_UPDATED,
