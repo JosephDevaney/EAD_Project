@@ -2,11 +2,13 @@
 require_once "DB/pdoDbManager.php";
 require_once "Validation.php";
 abstract class BaseModel {
-    private $DAO; // list of DAOs used by this model
-    private $dbmanager; // dbmanager
-    private $extendingClass;
+
+    protected $DAO; // list of DAOs used by this model
+    protected $dbmanager; // dbmanager
+    protected $extendingClass;
     public $apiResponse; // api response
-    private $validationSuite; // contains functions for validating inputs
+    protected $validationSuite; // contains functions for validating inputs
+
     public function __construct() {
         $this->extendingClass = substr(get_class($this),0,-5);
         $DaoName = $this->extendingClass . 'DAO';
@@ -16,10 +18,10 @@ abstract class BaseModel {
         $this->dbmanager->openConnection ();
         $this->validationSuite = new Validation ();
     }
-    protected function getAll() {
+    public function getAll() {
         return ($this->DAO->get ());
     }
-    protected function get($id) {
+    public function get($id) {
         if (is_numeric ( $id ))
             return ($this->DAO->get ( $id ));
 
@@ -66,7 +68,7 @@ abstract class BaseModel {
         return $unpackedParams;
     }
 
-    protected function create($params) {
+    public function create($params) {
         if($this->validateParams($params)){
             if($id = $this->DAO->insert($this->unpackParams($params)))
                 return $id;
@@ -76,7 +78,7 @@ abstract class BaseModel {
 
     }
 
-    protected function update($updateID, $newRepresentation) {
+    public function update($updateID, $newRepresentation) {
         if($this->validateParams($newRepresentation)){
             if($id = $this->DAO->update($this->unpackParams($newRepresentation), $updateID))
                 return $id;
@@ -86,7 +88,7 @@ abstract class BaseModel {
     }
 
 
-    protected function delete($id) {
+    public function delete($id) {
         //TODO
         if ($id != null) {
             if ($id = $this->DAO->delete($id)) {
@@ -95,10 +97,10 @@ abstract class BaseModel {
         }
         return false;
     }
-    protected function purge() {
+    public function purge() {
         return $this->DAO->purge();
     }
-    protected function search($string) {
+    public function search($string) {
         //TODO
         if (is_string( $string ))
             return ($this->DAO->search( $string ));
