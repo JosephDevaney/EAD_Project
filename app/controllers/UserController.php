@@ -19,7 +19,7 @@ class UserController extends BaseController{
 				$this->update ( $id, $this->requestBody );
 				break;
 			case ACTION_CREATE_USER :
-				$this->insert ( $this->requestBody );
+				$this->create ( $this->requestBody );
 				break;
 			case ACTION_DELETE_USER :
 				$this->delete ( $id );

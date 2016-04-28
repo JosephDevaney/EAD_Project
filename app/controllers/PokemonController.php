@@ -24,7 +24,7 @@ class PokemonController extends BaseController{
                 $this->update ( $id, $this->requestBody );
                 break;
             case ACTION_CREATE_POKEMON :
-                $this->insert ( $this->requestBody );
+                $this->create ( $this->requestBody );
                 break;
             case ACTION_DELETE_POKEMON :
                 $this->delete ( $id );
