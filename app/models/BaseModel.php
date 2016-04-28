@@ -1,13 +1,13 @@
 <?php
 require_once "DB/pdoDbManager.php";
 require_once "Validation.php";
-class BaseModel {
+abstract class BaseModel {
     private $DAO; // list of DAOs used by this model
     private $dbmanager; // dbmanager
     private $extendingClass;
-    public $apiResponse; // api response
+    protected $apiResponse; // api response
     private $validationSuite; // contains functions for validating inputs
-    public function __construct() {
+    protected function __construct() {
         $this->extendingClass = substr(get_class($this),0,-5);
         $DaoName = $this->extendingClass . 'DAO';
         require_once "DB/DAO/". $DaoName .".php";
@@ -16,10 +16,10 @@ class BaseModel {
         $this->dbmanager->openConnection ();
         $this->validationSuite = new Validation ();
     }
-    public function getAll() {
+    protected function getAll() {
         return ($this->DAO->get ());
     }
-    public function get($id) {
+    protected function get($id) {
         if (is_numeric ( $id ))
             return ($this->DAO->get ( $id ));
 
@@ -28,7 +28,7 @@ class BaseModel {
     /**
      *
      * @param array $MoveRepresentation:
-     *        	an associative array containing the detail of the new move
+     *          an associative array containing the detail of the new move
      */
 
     private function validateParams($params){
@@ -60,11 +60,11 @@ class BaseModel {
         foreach ($params as $value){
             $unpackedParams[$value['label']] = $value['value'];
         }
-        
+
         return $unpackedParams;
     }
 
-    public function create($params) {
+    protected function create($params) {
         if($this->validateParams($params)){
             if($id = $this->DAO->insert($this->unpackParams($params)))
                 return $id;
@@ -74,7 +74,7 @@ class BaseModel {
 
     }
 
-    public function update($updateID, $newRepresentation) {
+    protected function update($updateID, $newRepresentation) {
         if($this->validateParams($newRepresentation)){
             if($id = $this->DAO->update($this->unpackParams($newRepresentation), $updateID))
                 return $id;
@@ -84,7 +84,7 @@ class BaseModel {
     }
 
 
-    public function delete($id) {
+    protected function delete($id) {
         //TODO
         if ($id != null) {
             if ($id = $this->DAO->delete($id)) {
@@ -93,17 +93,17 @@ class BaseModel {
         }
         return false;
     }
-    public function purge() {
+    protected function purge() {
         return $this->DAO->purge();
     }
-    public function search($string) {
+    protected function search($string) {
         //TODO
         if (is_string( $string ))
             return ($this->DAO->search( $string ));
 
         return false;
     }
-    public function __destruct() {
+    protected function __destruct() {
         $this->DAO = null;
         $this->dbmanager->closeConnection ();
     }
