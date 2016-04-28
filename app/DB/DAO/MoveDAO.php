@@ -4,7 +4,7 @@
  * definition of the Moves DAO (database access object)
  */
 require_once("DB/DAO/BaseDAO.php");
-class MovesDAO extends BaseDAO {
+class MoveDAO extends BaseDAO {
     function __construct($DBmgr)
     {
         parent::__construct($DBmgr);
@@ -23,7 +23,6 @@ class MovesDAO extends BaseDAO {
         $sql .= ';';
 
         $values = $this->get_types($parametersArray);
-        
         return ($this->base_insert($sql, $values));
     }
     public function update($parametersArray, $moveID) {

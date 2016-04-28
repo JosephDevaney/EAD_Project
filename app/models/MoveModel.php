@@ -1,5 +1,7 @@
 <?php
 
+require_once('models/BaseModel.php');
+
 class MoveModel extends BaseModel {
 
     public function getMoves() {
@@ -25,7 +27,7 @@ class MoveModel extends BaseModel {
         return $this->update($moveID, $newMoveValidation);
     }
     public function deleteMove($moveID) {
-        return $this->deleteMove($moveID);
+        return $this->delete($moveID);
     }
     public function purgeMoves() {
         return $this->purge();

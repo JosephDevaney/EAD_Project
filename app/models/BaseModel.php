@@ -12,7 +12,7 @@ class BaseModel {
         $DaoName = $this->extendingClass . 'DAO';
         require_once "DB/DAO/". $DaoName .".php";
         $this->dbmanager = new pdoDbManager ();
-        $this->DAO = new $$DaoName ( $this->dbmanager );
+        $this->DAO = new $DaoName ( $this->dbmanager );
         $this->dbmanager->openConnection ();
         $this->validationSuite = new Validation ();
     }
@@ -36,18 +36,18 @@ class BaseModel {
         foreach($params as $value){
             $pass = false;
             if(!empty($value['value'])){
-                if($value['expectedType'] == 'numeric'){
-                    if(array_key_exists($value,'min') && array_key_exists($value,'max'))
-                        $pass = $this->validationSuite->isNumberInRangeValid( $value ["value"], $value['min'], $value[max]);
+                if($value['type'] == 'numeric'){
+                    if(array_key_exists('min',$value) && array_key_exists('max',$value))
+                        $pass = $this->validationSuite->isNumberInRangeValid( $value ["value"], $value['min'], $value['max']);
                     else
                         $pass = $this->validationSuite->isNumberInRangeValid( $value ["value"]);
                 }
-                else if($value['expectedType'] == 'string'){
-                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($this->extendingClass) .'_LENGTH' ));
+                else if($value['type'] == 'string'){
+                    $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($value['label']) .'_LENGTH' ));
                 }
 
             }
-            if(!pass) return false;
+            if(!$pass) return false;
         }
 
         return true;
@@ -58,7 +58,7 @@ class BaseModel {
         foreach ($params as $value){
             $unpackedParams[$value['label']] = $value['value'];
         }
-
+        
         return $unpackedParams;
     }
 
@@ -74,7 +74,7 @@ class BaseModel {
 
     public function update($moveID, $newMoveRepresentation) {
         if($this->validateParams($newMoveRepresentation)){
-            if($id = $this->DAO->update($this->unpackParams($newMoveRepresentation, $moveID)))
+            if($id = $this->DAO->update($this->unpackParams($newMoveRepresentation), $moveID))
                 return $id;
         }
 
@@ -89,7 +89,7 @@ class BaseModel {
                 return ($id);
             }
         }
-        return (false);
+        return false;
     }
     public function purge() {
         return $this->DAO->purge();
