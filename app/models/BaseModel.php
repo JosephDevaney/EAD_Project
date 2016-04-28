@@ -47,10 +47,12 @@ class BaseModel {
                 }
 
             }
-            if(!$pass) return false;
+//            if(!$pass) return false;
         }
+//        Can remove the if and return true and replace with return $pass;
+        return $pass;
 
-        return true;
+//        return true;
     }
 
     private function unpackParams($params){
@@ -72,9 +74,9 @@ class BaseModel {
 
     }
 
-    public function update($moveID, $newMoveRepresentation) {
-        if($this->validateParams($newMoveRepresentation)){
-            if($id = $this->DAO->update($this->unpackParams($newMoveRepresentation), $moveID))
+    public function update($updateID, $newRepresentation) {
+        if($this->validateParams($newRepresentation)){
+            if($id = $this->DAO->update($this->unpackParams($newRepresentation), $updateID))
                 return $id;
         }
 
