@@ -22,7 +22,8 @@ class RequestTest {
             if($curl->response) {
                 $responseFormat  = $curl->responseHeaders['Content-Type'];
                 if($responseFormat == 'application/json'){
-                    return json_decode($curl->response);
+//                    var_dump($curl->response);
+                    return $curl->response;
                 }
                 else if($responseFormat == 'application/xml'){
                     $xml = simplexml_load_string($curl->response, "SimpleXMLElement", LIBXML_NOCDATA);
@@ -35,12 +36,12 @@ class RequestTest {
         }
         else {
             echo 'Error: Expected:';
-            var_dump($expectedStatus);
+//            var_dump($expectedStatus);
             echo'Got:';
-            var_dump($curl->httpStatusCode);
+//            var_dump($curl->httpStatusCode);
         }
 
-        var_dump($curl->errorMessage);
+//        var_dump($curl->errorMessage);
         return false;
     }
 
