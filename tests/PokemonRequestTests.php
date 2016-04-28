@@ -60,7 +60,6 @@ class MoveRequestTests extends UnitTestCase{
     }
 
     public function testGetMovesJson(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
         $expectedResults = array();
         foreach ($this->samplePokemon as &$pokemon){
@@ -77,7 +76,13 @@ class MoveRequestTests extends UnitTestCase{
         $this->xmlEncoder->encode();
         $headers = $this->defaultHeaders;
         $headers['Accept'] = "application/xml";
-        $this->assertTrue($this->requestTest->get($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
+        $xml_string = $this->requestTest->get($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString());
+        $xml = simplexml_load_string($xml_string, "SimpleXMLElement", LIBXML_NOCDATA);
+        $json = json_encode($xml);
+        $array = json_decode($json, true);
+
+        $sameObj = !array_diff($this->samplePokemon, $array);
+        $this->assertTrue($sameObj);
     }
 
     public function testUpdateMoveJson(){

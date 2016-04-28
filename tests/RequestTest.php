@@ -29,21 +29,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-                        var_dump($expectedResponse);
+//                        var_dump($expectedResponse);
                         echo'Got:';
-                        var_dump($curl->response);
+//                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-                var_dump($expectedStatus);
+//                var_dump($expectedStatus);
                 echo'Got:';
-                var_dump($curl->httpStatusCode);
+//                var_dump($curl->httpStatusCode);
             }
 
-            var_dump($curl->errorMessage);
+//            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -67,21 +67,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-                        var_dump($expectedResponse);
+//                        var_dump($expectedResponse);
                         echo'Got:';
-                        var_dump($curl->response);
+//                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-                var_dump($expectedStatus);
+//                var_dump($expectedStatus);
                 echo'Got:';
-                var_dump($curl->httpStatusCode);
+//                var_dump($curl->httpStatusCode);
             }
 
-            var_dump($curl->errorMessage);
+//            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -104,21 +104,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-                        var_dump($expectedResponse);
+//                        var_dump($expectedResponse);
                         echo'Got:';
-                        var_dump($curl->response);
+//                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-                var_dump($expectedStatus);
+//                var_dump($expectedStatus);
                 echo'Got:';
-                var_dump($curl->httpStatusCode);
+//                var_dump($curl->httpStatusCode);
             }
 
-            var_dump($curl->errorMessage);
+//            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -141,21 +141,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-                        var_dump($expectedResponse);
+//                        var_dump($expectedResponse);
                         echo'Got:';
-                        var_dump($curl->response);
+//                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-                var_dump($expectedStatus);
+//                var_dump($expectedStatus);
                 echo'Got:';
-                var_dump($curl->httpStatusCode);
+//                var_dump($curl->httpStatusCode);
             }
 
-            var_dump($curl->errorMessage);
+//            var_dump($curl->errorMessage);
             return false;
         }
     }
