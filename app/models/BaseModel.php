@@ -25,10 +25,12 @@ class BaseModel {
 
         return false;
     }
+
     /**
      *
-     * @param array $MoveRepresentation:
-     *        	an associative array containing the detail of the new move
+     * @param array $MoveRepresentation :
+     * an associative array containing the detail of the new move
+     * @return bool
      */
 
     private function validateParams($params){

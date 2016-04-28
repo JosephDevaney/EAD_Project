@@ -4,13 +4,13 @@
  * definition of the User DAO (database access object)
  */
 require_once("DB/DAO/BaseDAO.php");
-class UsersDAO extends BaseDAO{
+class UserDAO extends BaseDAO{
     function __construct($DBmgr)
     {
         parent::__construct($DBmgr);
     }
 
-    function UsersDAO($DBMngr) {
+    function UserDAO($DBMngr) {
 		$this->dbManager = $DBMngr;
 	}
 	public function get($id = null) {
