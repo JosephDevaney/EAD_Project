@@ -81,7 +81,6 @@ class PokemonRequestTests extends UnitTestCase{
         $headers = $this->defaultHeaders;
         $headers['Accept'] = "application/xml";
         $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
-        var_dump($array);
         $this->assertTrue($this->compare_arrays($this->samplePokemon, $array["element"]));
     }
 
