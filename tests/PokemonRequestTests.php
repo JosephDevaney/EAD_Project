@@ -59,30 +59,30 @@ class PokemonRequestTests extends UnitTestCase{
 //            $this->authHeaders, HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"26"}'));
 //    }
 
-//    public function testGetPokemonJson(){
-//        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
-//        $expectedResults = array();
-//        foreach ($this->samplePokemon as &$pokemon){
-//            foreach($pokemon as &$value)
-//                $value = (string)$value;
-//        }
-//        $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK, json_encode($this->samplePokemon));
-//        var_dump($array);
-//        $this->assertTrue(!array_diff($this->samplePokemon, $array));
-//    }
-
-    public function testGetPokemonXml(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
+    public function testGetPokemonJson(){
         $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
-        $this->xmlEncoder = new XmlEncoder($this->samplePokemon);
-        $this->xmlEncoder->encode();
-        $headers = $this->defaultHeaders;
-        $headers['Accept'] = "application/xml";
-        $xml_array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString());
-
-        $sameObj = !array_diff($this->samplePokemon, $xml_array);
-        $this->assertTrue($sameObj);
+        $expectedResults = array();
+        foreach ($this->samplePokemon as &$pokemon){
+            foreach($pokemon as &$value)
+                $value = (string)$value;
+        }
+        $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK);
+//        var_dump($array);
+        $this->assertTrue(!array_diff($this->samplePokemon, $array));
     }
+//
+//    public function testGetPokemonXml(){
+//        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
+//        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
+//        $this->xmlEncoder = new XmlEncoder($this->samplePokemon);
+//        $this->xmlEncoder->encode();
+//        $headers = $this->defaultHeaders;
+//        $headers['Accept'] = "application/xml";
+//        $xml_array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
+//
+//        $sameObj = !array_diff($this->samplePokemon, $xml_array);
+//        $this->assertTrue($sameObj);
+//    }
 //
 //    public function testUpdatePokemonJson(){
 //        foreach($this->samplePokemon[0] as &$value) {
