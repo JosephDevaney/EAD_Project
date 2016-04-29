@@ -54,7 +54,6 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -92,7 +91,6 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -129,7 +127,6 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -166,7 +163,6 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
