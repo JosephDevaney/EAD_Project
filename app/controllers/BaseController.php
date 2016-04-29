@@ -10,21 +10,7 @@ abstract class BaseController {
         $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true );
     }
 
-    protected function getAll() {
-        $response = $this->model->getAll();
-        if ($response != null) {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
-            $this->model->apiResponse = $response;
-        } else {
-            $this->slimApp->response ()->setStatus ( HTTPSTATUS_NOCONTENT );
-            $Message = array (
-                GENERAL_MESSAGE_LABEL => GENERAL_NOCONTENT_MESSAGE
-            );
-            $this->model->apiResponse = $Message;
-        }
-    }
-
-    protected function get($id) {
+    protected function get($id=null) {
         $response = $this->model->get ( $id );
         if ($response != null) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );

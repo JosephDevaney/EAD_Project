@@ -5,16 +5,13 @@ class MoveController extends BaseController {
     public function __construct($model, $action = null, $slimApp, $parameters = null) {
 
         parent::__construct($model, $slimApp);
-
+        $id = null;
         if (! empty ( $parameters ["id"] ))
             $id = $parameters ["id"];
 
         switch ($action) {
             case ACTION_GET_MOVE :
                 $this->get( $id );
-                break;
-            case ACTION_GET_MOVES :
-                $this->getAll();
                 break;
             case ACTION_UPDATE_MOVE :
                 $this->update( $id, $this->requestBody );

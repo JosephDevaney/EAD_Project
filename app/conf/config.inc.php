@@ -14,9 +14,8 @@ define("DB_DEBUGMODE", true ); 			// set database charset
 define("BASE_URL", "http://localhost:1337/Workspace/EAD_Project/app/index.php/");
 
 /* actions for the USERS REST resource */
-define("ACTION_AUTHENTICATE_USER", 122);
-define("ACTION_GET_USER", 133);
-define("ACTION_GET_USERS", 144);
+define("ACTION_AUTHENTICATE_USER", 133);
+define("ACTION_GET_USER", 144);
 define("ACTION_CREATE_USER", 155);
 define("ACTION_UPDATE_USER", 166);
 define("ACTION_DELETE_USER", 177);
@@ -24,8 +23,7 @@ define("ACTION_SEARCH_USERS", 188);
 define("ACTION_PURGE_USERS", 199);
 
 /* actions for the POKEMON REST resource */
-define("ACTION_GET_POKEMON", 233);
-define("ACTION_GET_ALL_POKEMON", 244);
+define("ACTION_GET_POKEMON", 244);
 define("ACTION_CREATE_POKEMON", 255);
 define("ACTION_UPDATE_POKEMON", 266);
 define("ACTION_DELETE_POKEMON", 277);
@@ -33,8 +31,7 @@ define("ACTION_SEARCH_POKEMON", 288);
 define("ACTION_PURGE_POKEMON", 299);
 
 /* actions for the MOVES REST resource */
-define("ACTION_GET_MOVE", 333);
-define("ACTION_GET_MOVES", 344);
+define("ACTION_GET_MOVE", 344);
 define("ACTION_CREATE_MOVE", 355);
 define("ACTION_UPDATE_MOVE", 366);
 define("ACTION_DELETE_MOVE", 377);
