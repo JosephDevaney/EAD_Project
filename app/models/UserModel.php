@@ -24,8 +24,7 @@ class UserModel extends BaseModel{
 		if (is_string( $username ) && is_string($pwd)) {
 			$users = $this->DAO->searchUsername( $username );
 			foreach ($users as $u) {
-				//if (password_verify($pwd,$u["password"]))
-				if ($pwd == $u["password"])
+				if (password_verify($pwd,$u["password"]))
 					return true;
 			}
 		}
