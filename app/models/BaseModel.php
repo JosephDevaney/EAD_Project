@@ -28,15 +28,7 @@ abstract class BaseModel {
         return false;
     }
 
-    /**
-     *
-     * @param array $MoveRepresentation :
-     * an associative array containing the detail of the new move
-     * @return boolfbccfb909d888a23c6dd2d343136977ee
-     */
-
     private function validateParams($params){
-        // validation of the values of the new move
         foreach($params as $value){
             $pass = false;
             if(!empty($value['value'])){
@@ -49,14 +41,9 @@ abstract class BaseModel {
                 else if($value['type'] == 'string'){
                     $pass = $this->validationSuite->isLengthStringValid ( $value ["value"], constant('TABLE_'. strtoupper($this->extendingClass . '_' .$value['label']) .'_LENGTH' ));
                 }
-
             }
-//            if(!$pass) return false;
         }
-//        Can remove the if and return true and replace with return $pass;
         return $pass;
-
-//        return true;
     }
 
     private function unpackParams($params){
@@ -67,7 +54,6 @@ abstract class BaseModel {
             else
                 $unpackedParams[$value['label']] = $value['value'];
         }
-
         return $unpackedParams;
     }
 
@@ -76,9 +62,7 @@ abstract class BaseModel {
             if($id = $this->DAO->insert($this->unpackParams($params)))
                 return $id;
         }
-
         return false;
-
     }
 
     public function update($updateID, $newRepresentation) {
@@ -86,13 +70,10 @@ abstract class BaseModel {
             if($id = $this->DAO->update($this->unpackParams($newRepresentation), $updateID))
                 return $id;
         }
-
         return false;
     }
 
-
     public function delete($id) {
-        //TODO
         if ($id != null) {
             if ($id = $this->DAO->delete($id)) {
                 return ($id);
@@ -100,19 +81,20 @@ abstract class BaseModel {
         }
         return false;
     }
+
     public function purge() {
         return $this->DAO->purge();
     }
+
     public function search($string) {
-        //TODO
         if (is_string( $string ))
             return ($this->DAO->search( $string ));
 
         return false;
     }
+
     public function __destruct() {
         $this->DAO = null;
         $this->dbmanager->closeConnection ();
     }
 }
-?>

@@ -43,7 +43,5 @@ class XmlEncoder {
         array_to_xml($this->array, $xml);
         $this->xmlString = $xml->asXML();
     }
-
-
 }
 ?>

@@ -61,7 +61,6 @@ class PokemonRequestTests extends UnitTestCase{
 
     public function testGetPokemonJson(){
         $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
-        $expectedResults = array();
         foreach ($this->samplePokemon as &$pokemon){
             foreach($pokemon as &$value)
                 $value = (string)$value;
@@ -74,7 +73,6 @@ class PokemonRequestTests extends UnitTestCase{
 
 
     public function testGetPokemonXml(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
         $this->xmlEncoder = new XmlEncoder($this->samplePokemon);
         $this->xmlEncoder->encode();

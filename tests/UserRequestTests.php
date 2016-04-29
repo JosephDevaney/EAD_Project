@@ -44,7 +44,6 @@ class UserRequestTests extends UnitTestCase{
     }
 
     public function testGetUsersJson(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
         $password = $this->sampleUser['password'];
         unset($this->sampleUser['password']);
@@ -102,4 +101,3 @@ class UserRequestTests extends UnitTestCase{
 
     }
 }
-?>
