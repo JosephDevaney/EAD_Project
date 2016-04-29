@@ -28,7 +28,6 @@ abstract class BaseDAO {
         return ($rows);
     }
     protected function base_insert($sql, $values) {
-        // insertion assumes that all the required parameters are defined and set
         $stmt = $this->prepare_stmt($sql, $values);
 
         $this->dbManager->executeQuery ( $stmt );

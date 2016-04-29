@@ -14,7 +14,6 @@ class UserDAO extends BaseDAO{
         return ($this->base_get($id, "users", "id", "name"));
 	}
 	public function insert($parametersArray) {
-		// insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO users (username, name, surname, email, password) ";
         $sql .= "VALUES (:username,:name,:surname,:email,:password) ";
         

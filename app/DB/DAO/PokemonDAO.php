@@ -15,7 +15,6 @@ class PokemonDAO extends BaseDAO{
         return ($this->base_get($id, "pokemon", "id", "id"));
     }
     public function insert($parametersArray) {
-        // insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO pokemon (id, name, height, weight, hp, move1_id, move2_id, move3_id, move4_id) ";
         $sql .= "VALUES (:id,:name,:height,:weight,:hp,:move1_id,:move2_id,:move3_id,:move4_id) ";
 

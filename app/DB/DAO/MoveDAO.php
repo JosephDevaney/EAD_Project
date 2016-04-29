@@ -17,7 +17,6 @@ class MoveDAO extends BaseDAO {
         return ($this->base_get($id, "moves", "move_id", "move_id"));
     }
     public function insert($parametersArray) {
-        // insertion assumes that all the required parameters are defined and set
         $sql = "INSERT INTO moves (move_name, accuracy, pp, power) ";
         $sql .= "VALUES (:move_name,:accuracy,:pp,:power) ";
         $sql .= ';';
