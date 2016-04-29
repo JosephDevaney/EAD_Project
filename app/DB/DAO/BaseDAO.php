@@ -45,9 +45,10 @@ abstract class BaseDAO {
 //		$this->dbManager->bindValue ( $stmt, 3, $parametersArray ["surname"], $this->dbManager->STRING_TYPE );
 //		$this->dbManager->bindValue ( $stmt, 4, $parametersArray ["email"], $this->dbManager->STRING_TYPE );
 //		$this->dbManager->bindValue ( $stmt, 5, $parametersArray ["password"], $this->dbManager->STRING_TYPE );
-        $this->dbManager->executeQuery ( $stmt );
-
-        return ($this->dbManager->getLastInsertedID ());
+        if($this->dbManager->executeQuery ( $stmt ))
+            return ($this->dbManager->getLastInsertedID ());
+        else
+            return false;
     }
 
 

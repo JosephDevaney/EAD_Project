@@ -37,6 +37,8 @@ class PokemonModel extends BaseModel {
         foreach($pokemonList as &$pokemon) {
             for ($i = 1; $i < 5; ++$i) {
                 $mNum = "move".$i."_id";
+                if(sizeof($pokemon[$mNum]) < 4)
+                    return array();
                 $pokemon[$mNum] = $moveDAO->get($pokemon[$mNum])[0];
             }
             array_push($newList, $pokemon);

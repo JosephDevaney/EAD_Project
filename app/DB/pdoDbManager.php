@@ -39,7 +39,7 @@ class pdoDbManager {
 		$stmt->bindParam ( $key, $value, $type );
 	}
 	function executeQuery($stmt) {
-		$stmt->execute ();
+		return $stmt->execute ();
 	}
 	function fetchResults($stmt) {
 		$rows = $stmt->fetchAll ( PDO::FETCH_ASSOC );
