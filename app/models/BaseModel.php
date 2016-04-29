@@ -18,11 +18,8 @@ abstract class BaseModel {
         $this->dbmanager->openConnection ();
         $this->validationSuite = new Validation ();
     }
-    public function getAll() {
-        return ($this->DAO->get ());
-    }
-    public function get($id) {
-        if (is_numeric ( $id ))
+    public function get($id=null) {
+        if (is_numeric ( $id ) || $id == null)
             return ($this->DAO->get ( $id ));
 
         return false;

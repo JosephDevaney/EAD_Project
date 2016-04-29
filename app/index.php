@@ -47,10 +47,7 @@ $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) 
     if (($userID == null) or is_numeric ( $userID )) {
         switch ($httpMethod) {
             case "GET" :
-                if ($userID != null)
-                    $action = ACTION_GET_USER;
-                else
-                    $action = ACTION_GET_USERS;
+                $action = ACTION_GET_USER;
                 break;
             case "PUT" :
                 $action = ACTION_UPDATE_USER;
@@ -99,12 +96,7 @@ $app->map ( "/pokemon(/:id)", function ($pokemonID = null) use($app) {
 	$action = null;
 	$parameters ["id"] = $pokemonID; // prepare parameters to be passed to the controller (example: ID)
 
-	if (($pokemonID == null) or is_numeric ( $pokemonID )) {
-        if ($pokemonID != null)
-            $action = ACTION_GET_POKEMON;
-        else
-            $action = ACTION_GET_ALL_POKEMON;
-	}
+    $action = ACTION_GET_POKEMON;
 
     $responseFormat = responseFormat($app);
 
@@ -143,13 +135,7 @@ $app->map ( "/moves(/:id)", function ($moveID = null) use($app) {
     $action = null;
     $parameters ["id"] = $moveID; 
 
-    if (($moveID == null) or is_numeric ( $moveID )) {
-        if ($moveID != null)
-            $action = ACTION_GET_MOVE;
-        else
-            $action = ACTION_GET_MOVES;
-    }
-
+    $action = ACTION_GET_MOVE;
     $responseFormat = responseFormat($app);
 
     return new loadRunMVCComponents ( "MoveModel", "MoveController", $responseFormat, $action, $app, $parameters );

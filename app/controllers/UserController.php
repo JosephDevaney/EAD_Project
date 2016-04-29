@@ -4,16 +4,13 @@ require_once ("controllers/BaseController.php");
 class UserController extends BaseController{
 	public function __construct($model, $action = null, $slimApp, $parameters = null) {
         parent::__construct($model, $slimApp);
-		
+		$id = null;
 		if (! empty ( $parameters ["id"] ))
 			$id = $parameters ["id"];
 		
 		switch ($action) {
 			case ACTION_GET_USER :
 				$this->get ( $id );
-				break;
-			case ACTION_GET_USERS :
-				$this->getAll ();
 				break;
 			case ACTION_UPDATE_USER :
 				$this->update ( $id, $this->requestBody );
