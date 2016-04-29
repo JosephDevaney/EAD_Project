@@ -49,29 +49,30 @@ class PokemonRequestTests extends UnitTestCase{
         $this->route = NULL;
     }
 
-//    public function  testCreatePokemonJson(){
-//        $this->assertTrue($this->requestTest->post($this->route, json_encode($this->samplePokemon[1]),
-//            $this->authHeaders, HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"26"}'));
-//    }
-//
-//    public function testDeletePokemon(){
-//        $this->assertTrue($this->requestTest->delete($this->route . '/26',
-//            $this->authHeaders, HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"26"}'));
-//    }
-//
-//    public function testGetPokemonJson(){
-//        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
-//        $expectedResults = array();
-//        foreach ($this->samplePokemon as &$pokemon){
-//            foreach($pokemon as &$value)
-//                $value = (string)$value;
-//        }
-//        $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK);
-//
-//        var_dump($array);
-//        $this->assertTrue(!array_diff($this->samplePokemon, (array) $array));
-//    }
-//
+    public function  testCreatePokemonJson(){
+        $this->assertTrue($this->requestTest->post($this->route, json_encode($this->samplePokemon[1]),
+            $this->authHeaders, HTTPSTATUS_CREATED, '{"message":"Resource has been created","id":"26"}'));
+    }
+
+    public function testDeletePokemon(){
+        $this->assertTrue($this->requestTest->delete($this->route . '/26',
+            $this->authHeaders, HTTPSTATUS_OK, '{"message":"Resource has been deleted","id":"26"}'));
+    }
+
+    public function testGetPokemonJson(){
+        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
+        $expectedResults = array();
+        foreach ($this->samplePokemon as &$pokemon){
+            foreach($pokemon as &$value)
+                $value = (string)$value;
+        }
+        $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK);
+
+        $this->assertTrue($this->compare_arrays($this->samplePokemon, $array));
+    }
+
+
+
     public function testGetPokemonXml(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
@@ -79,22 +80,35 @@ class PokemonRequestTests extends UnitTestCase{
         $this->xmlEncoder->encode();
         $headers = $this->defaultHeaders;
         $headers['Accept'] = "application/xml";
-        $xml_array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
-        var_dump($xml_array);
-        $sameObj = !array_diff($this->samplePokemon, $xml_array);
-        $this->assertTrue($sameObj);
+        $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
+        var_dump($array);
+        $this->assertTrue($this->compare_arrays($this->samplePokemon, $array["element"]));
     }
 
-//    public function testUpdatePokemonJson(){
-//        foreach($this->samplePokemon[0] as &$value) {
-//            if (is_string($value))
-//                $value = $value . 'Mod';
-//            else
-//                $value = (string)$value;
-//        }
-//        $this->requestTest->put($this->route . "/25", json_encode($this->samplePokemon[0]), $this->authHeaders);
-//
-//        $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK, json_encode($this->samplePokemon));
-//        $this->assertTrue(!array_diff($this->samplePokemon, $array));
-//    }
+    public function testUpdatePokemonJson(){
+        foreach($this->samplePokemon[0] as &$value) {
+            if (is_string($value))
+                $value = $value . 'Mod';
+            else
+                $value = (string)$value;
+        }
+        $this->requestTest->put($this->route . "/25", json_encode($this->samplePokemon[0]), $this->authHeaders);
+
+        $array = $this->requestTest->getDecoded($this->route . "/25", $this->defaultHeaders, HTTPSTATUS_OK);
+        $this->assertTrue($this->compare_arrays(array($this->samplePokemon[0]), $array));
+    }
+
+    private function compare_arrays($set, $get) {
+        for($i = 0; $i < count($set); $i++) {
+            foreach ($set[$i] as $k => $v) {
+                if (substr($k, 0, 4) == 'move') {
+                    if ($get[$i][$k]["move_id"] != $v)
+                        return false;
+                } else if ($get[$i][$k] != $v) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
