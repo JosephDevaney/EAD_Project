@@ -67,8 +67,14 @@ class PokemonRequestTests extends UnitTestCase{
                 $value = (string)$value;
         }
         $array = $this->requestTest->getDecoded($this->route, $this->defaultHeaders, HTTPSTATUS_OK);
-//        var_dump($array);
-        $this->assertTrue(!array_diff($this->samplePokemon, $array));
+        foreach ($array as &$elem)
+            $elem = (array) $elem;
+            foreach ($elem as &$subElem)
+                if(is_object($subElem))
+                $subElem = (array) $subElem;
+
+        var_dump($array);
+        $this->assertTrue(!array_diff($this->samplePokemon, (array) $array));
     }
 //
 //    public function testGetPokemonXml(){
