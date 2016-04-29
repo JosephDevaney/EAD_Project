@@ -19,4 +19,3 @@ class xmlView
             $this->slimApp->response->write($response);
     }
 }
-?>
