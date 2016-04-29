@@ -7,7 +7,7 @@ abstract class BaseController {
     public function __construct($model, $slimApp) {
         $this->model = $model;
         $this->slimApp = $slimApp;
-        $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true ); // this must contain the representation of the new move
+        $this->requestBody = json_decode ( $this->slimApp->request->getBody (), true );
     }
 
     protected function getAll() {
@@ -56,7 +56,6 @@ abstract class BaseController {
         }
     }
     protected function delete($id) {
-        //TODO
         if ($deletedId = $this->model->delete( $id )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK);
             $Message = array (
@@ -73,7 +72,6 @@ abstract class BaseController {
         }
     }
     protected function purge() {
-        //TODO
         if ($this->model->purge()) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
             $Message = array (
@@ -89,7 +87,6 @@ abstract class BaseController {
         }
     }
     protected function update($id, $parameters) {
-        //TODO
         if ($newId = $this->model->updateExisting ( $id, $parameters )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_CREATED );
             $Message = array (
@@ -106,7 +103,6 @@ abstract class BaseController {
         }
     }
     protected function search($string) {
-        //TODO
         if ($array = $this->model->search( $string )) {
             $this->slimApp->response ()->setStatus ( HTTPSTATUS_OK );
 
@@ -120,4 +116,3 @@ abstract class BaseController {
         }
     }
 }
-?>

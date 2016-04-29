@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Journeyman
- * Date: 23/04/2016
- * Time: 15:39
- */
+
 require_once("DB/DAO/BaseDAO.php");
 class PokemonDAO extends BaseDAO{
     function __construct($DBmgr)

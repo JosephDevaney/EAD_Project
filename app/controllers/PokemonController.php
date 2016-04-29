@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Journeyman
- * Date: 23/04/2016
- * Time: 19:23
- */
 require_once ("controllers/BaseController.php");
 
 class PokemonController extends BaseController{

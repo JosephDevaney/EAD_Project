@@ -1,25 +1,19 @@
 <?php
 require_once "../Slim/Slim.php";
 Slim\Slim::registerAutoloader ();
-// Test
 $app = new \Slim\Slim (); // slim run-time object
 
 require_once "conf/config.inc.php";
 
 function authenticate(\Slim\Route $route) {
 	$app = \Slim\Slim::getInstance();
-
-    $httpMethod = $app->request->getMethod ();
 	
 	$header = $app->request->headers();
-
-	$action = ACTION_AUTHENTICATE_USER;
-
-	$mvc = new loadRunMVCComponents ( "UserModel", "UserController", "noOutputView", $action, $app, $header );
+    $action = ACTION_AUTHENTICATE_USER;
+	new loadRunMVCComponents ( "UserModel", "UserController", "noOutputView", $action, $app, $header );
 
 	if ($app->response->headers->get('Authenticated'))
 		return true;
-
 
 	$app->halt(401);
 }
@@ -33,14 +27,12 @@ function responseFormat($app){
 }
 
 $app->map ( "/users(/:id)", function ($userID = null) use($app) {
-	$httpMethod = $app->request->getMethod ();
 	$action = null;
 	$parameters ["id"] = $userID; // prepare parameters to be passed to the controller (example: ID)
 	
 	if (($userID == null) or is_numeric ( $userID )) {
         $action = ACTION_CREATE_USER;
 	}
-
     $responseFormat = responseFormat($app);
 
 	return new loadRunMVCComponents ( "UserModel", "UserController", $responseFormat, $action, $app, $parameters );
@@ -71,7 +63,6 @@ $app->map ( "/users(/:id)", "authenticate", function ($userID = null) use($app) 
             default :
         }
     }
-
     $responseFormat = responseFormat($app);
 
     return new loadRunMVCComponents ( "UserModel", "UserController", $responseFormat, $action, $app, $parameters );
@@ -101,7 +92,6 @@ $app->map ( "/search/:entity/:searchString", function ($entity = null,$searchStr
 } )->via ( "GET" );
 
 $app->map ( "/pokemon(/:id)", function ($pokemonID = null) use($app) {
-	$httpMethod = $app->request->getMethod ();
 	$action = null;
 	$parameters ["id"] = $pokemonID; // prepare parameters to be passed to the controller (example: ID)
 
@@ -142,13 +132,12 @@ $app->map ( "/pokemon(/:id)", "authenticate", function ($pokemonID = null) use($
 
     $responseFormat = responseFormat($app);
 
-    return new loadRunMVCComponents ( "PokemonModel", "PokemonController", "jsonView", $action, $app, $parameters );
+    return new loadRunMVCComponents ( "PokemonModel", "PokemonController", $responseFormat, $action, $app, $parameters );
 } )->via ( "POST", "PUT", "DELETE", "PURGE" );
 
 $app->map ( "/moves(/:id)", function ($moveID = null) use($app) {
-    $httpMethod = $app->request->getMethod ();
     $action = null;
-    $parameters ["id"] = $moveID; // prepare parameters to be passed to the controller (example: ID)
+    $parameters ["id"] = $moveID; 
 
     if (($moveID == null) or is_numeric ( $moveID )) {
         if ($moveID != null)
@@ -184,7 +173,6 @@ $app->map ( "/moves(/:id)", "authenticate", function ($moveID = null) use($app) 
             default :
         }
     }
-
     $responseFormat = responseFormat($app);
 
     return new loadRunMVCComponents ( "MoveModel", "MoveController", $responseFormat, $action, $app, $parameters );
@@ -204,5 +192,3 @@ class loadRunMVCComponents {
 		$this->view->output (); // this returns the response to the requesting client
 	}
 }
-
-?>

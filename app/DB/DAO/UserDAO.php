@@ -1,8 +1,5 @@
 <?php
-/**
- * @author Luca
- * definition of the User DAO (database access object)
- */
+
 require_once("DB/DAO/BaseDAO.php");
 class UserDAO extends BaseDAO{
     function __construct($DBmgr)
@@ -43,7 +40,6 @@ class UserDAO extends BaseDAO{
 	}
 	
 	public function searchUsername($str) {
-		//TODO
 		$sql = "SELECT * ";
 		$sql .= "FROM users ";
 		$sql .= "WHERE USERNAME LIKE :username ";
