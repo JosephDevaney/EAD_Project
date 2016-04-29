@@ -22,7 +22,7 @@ class RequestTest {
             if($curl->response) {
                 $responseFormat  = $curl->responseHeaders['Custom-Content-Type'];
                 if($responseFormat == 'application/json'){
-                    return json_decode($curl->response);
+                    return json_decode($curl->response, true);
                 }
                 else if($responseFormat == 'application/xml'){
                     $xml = simplexml_load_string($curl->response, "SimpleXMLElement", LIBXML_NOCDATA);
