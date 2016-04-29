@@ -22,8 +22,8 @@ class RequestTest {
             if($curl->response) {
                 $responseFormat  = $curl->responseHeaders['Content-Type'];
                 if($responseFormat == 'application/json'){
-//                    var_dump($curl->response);
-                    return $curl->response;
+                    var_dump($curl->response);
+                    return json_decode($curl->response);
                 }
                 else if($responseFormat == 'application/xml'){
                     $xml = simplexml_load_string($curl->response, "SimpleXMLElement", LIBXML_NOCDATA);
@@ -36,12 +36,12 @@ class RequestTest {
         }
         else {
             echo 'Error: Expected:';
-//            var_dump($expectedStatus);
+            var_dump($expectedStatus);
             echo'Got:';
-//            var_dump($curl->httpStatusCode);
+            var_dump($curl->httpStatusCode);
         }
 
-//        var_dump($curl->errorMessage);
+        var_dump($curl->errorMessage);
         return false;
     }
 
@@ -55,7 +55,7 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    //var_dump($expectedResponse);
+                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -63,21 +63,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-//                        var_dump($expectedResponse);
+                        var_dump($expectedResponse);
                         echo'Got:';
-//                        var_dump($curl->response);
+                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-//                var_dump($expectedStatus);
+                var_dump($expectedStatus);
                 echo'Got:';
-//                var_dump($curl->httpStatusCode);
+                var_dump($curl->httpStatusCode);
             }
 
-//            var_dump($curl->errorMessage);
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -93,7 +93,7 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    //var_dump($expectedResponse);
+                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -101,21 +101,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-//                        var_dump($expectedResponse);
+                        var_dump($expectedResponse);
                         echo'Got:';
-//                        var_dump($curl->response);
+                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-//                var_dump($expectedStatus);
+                var_dump($expectedStatus);
                 echo'Got:';
-//                var_dump($curl->httpStatusCode);
+                var_dump($curl->httpStatusCode);
             }
 
-//            var_dump($curl->errorMessage);
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -130,7 +130,7 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    //var_dump($expectedResponse);
+                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -138,21 +138,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-//                        var_dump($expectedResponse);
+                        var_dump($expectedResponse);
                         echo'Got:';
-//                        var_dump($curl->response);
+                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-//                var_dump($expectedStatus);
+                var_dump($expectedStatus);
                 echo'Got:';
-//                var_dump($curl->httpStatusCode);
+                var_dump($curl->httpStatusCode);
             }
 
-//            var_dump($curl->errorMessage);
+            var_dump($curl->errorMessage);
             return false;
         }
     }
@@ -167,7 +167,7 @@ class RequestTest {
             if($curl->httpStatusCode == $expectedStatus)
             {
                 if($curl->response) {
-                    //var_dump($expectedResponse);
+                    var_dump($expectedResponse);
                     $sim = 0;
                     similar_text($expectedResponse, $curl->response, $sim);
                     if($sim >= $similarityPercentage){
@@ -175,21 +175,21 @@ class RequestTest {
                     }
                     else{
                         echo 'Error: Expected:';
-//                        var_dump($expectedResponse);
+                        var_dump($expectedResponse);
                         echo'Got:';
-//                        var_dump($curl->response);
+                        var_dump($curl->response);
                         echo round($sim) . "% similar";
                     }
                 }
             }
             else {
                 echo 'Error: Expected:';
-//                var_dump($expectedStatus);
+                var_dump($expectedStatus);
                 echo'Got:';
-//                var_dump($curl->httpStatusCode);
+                var_dump($curl->httpStatusCode);
             }
 
-//            var_dump($curl->errorMessage);
+            var_dump($curl->errorMessage);
             return false;
         }
     }
