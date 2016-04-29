@@ -51,7 +51,6 @@ class MoveRequestTests extends UnitTestCase{
     }
 
     public function testGetMovesJson(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleMove), $this->authHeaders);
         $expectedResults = array();
         foreach($this->sampleMove as &$value)
@@ -62,7 +61,6 @@ class MoveRequestTests extends UnitTestCase{
     }
 
     public function testGetMovesXml(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleMove), $this->authHeaders);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleMove));
