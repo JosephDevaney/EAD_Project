@@ -20,9 +20,8 @@ class RequestTest {
         if($curl->httpStatusCode == $expectedStatus)
         {
             if($curl->response) {
-                $responseFormat  = $curl->responseHeaders['Content-Type'];
+                $responseFormat  = $curl->responseHeaders['Custom-Content-Type'];
                 if($responseFormat == 'application/json'){
-                    var_dump($curl->response);
                     return json_decode($curl->response);
                 }
                 else if($responseFormat == 'application/xml'){

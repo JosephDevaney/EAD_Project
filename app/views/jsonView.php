@@ -11,7 +11,7 @@ class jsonView
 
 	public function output(){
 		//prepare json response
-		$this->slimApp->response->headers->set('Content-Type', 'application/json');
+		$this->slimApp->response->headers->set('Custom-Content-Type', 'application/json');
 		$jsonResponse = json_encode($this->model->apiResponse);
 		$this->slimApp->response->write($jsonResponse);
 	}

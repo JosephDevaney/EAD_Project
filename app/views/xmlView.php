@@ -14,7 +14,7 @@ class xmlView
 
     public function output(){
         //prepare xml response
-        $this->slimApp->response->headers->set('Content-Type', 'application/xml');
+        $this->slimApp->response->headers->set('Custom-Content-Type', 'application/xml');
         $this->xmlEncoder->encode();
         if($response = $this->xmlEncoder->getUnformattedString())
             $this->slimApp->response->write($response);
