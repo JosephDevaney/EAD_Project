@@ -46,23 +46,38 @@ class UserRequestTests extends UnitTestCase{
     public function testGetUsersJson(){
         //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
+        $password = $this->sampleUser['password'];
+        unset($this->sampleUser['password']);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array($this->primaryKey => '2'),$this->sampleUser));
-        $this->assertTrue($this->requestTest->get($this->route, $this->authHeaders, HTTPSTATUS_OK, json_encode($expectedResults)));
+        $array = $this->requestTest->getDecoded($this->route, $this->authHeaders, HTTPSTATUS_OK);
+        if(password_verify($password,$array[0]['password']) && password_verify($password,$array[1]['password'])){
+            unset($array[0]['password']);
+            unset($array[1]['password']);
+            $this->assertTrue($expectedResults == $array);
+        }
+        else
+            var_dump('passwords did not satisfy the hash');
     }
 
     public function testGetUsersXml(){
-        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
+        $headers = $this->authHeaders;
+        $headers['Accept'] = "application/xml";
         $this->requestTest->post($this->route, json_encode($this->sampleUser), $this->defaultHeaders);
+        $password = $this->sampleUser['password'];
+        unset($this->sampleUser['password']);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
         array_push($expectedResults,array_merge(array($this->primaryKey => '2'),$this->sampleUser));
-        $this->xmlEncoder = new XmlEncoder($expectedResults);
-        $this->xmlEncoder->encode();
-        $headers = $this->authHeaders;
-        $headers['Accept'] = "application/xml";
-        $this->assertTrue($this->requestTest->get($this->route, $headers, HTTPSTATUS_OK, $this->xmlEncoder->getUnformattedString()));
+        $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK)['element'];
+        if(password_verify($password,$array[0]['password']) && password_verify($password,$array[1]['password'])){
+            unset($array[0]['password']);
+            unset($array[1]['password']);
+            $this->assertTrue($expectedResults == $array);
+        }
+        else
+            var_dump('passwords did not satisfy the hash');
     }
 
     public function testUpdateUserJson(){
@@ -71,12 +86,19 @@ class UserRequestTests extends UnitTestCase{
                 $value = $value . 'Mod';
         }
         $this->requestTest->put($this->route . "/1", json_encode($this->sampleUser), $this->authHeaders);
+        unset($this->sampleUser['password']);
         $expectedResults = array();
         array_push($expectedResults,array_merge(array($this->primaryKey => '1'),$this->sampleUser));
         $headers = $this->authHeaders;
         $headers['username'] .= "Mod";
         $headers['password'] .= "Mod";
-        $this->assertTrue($this->requestTest->get($this->route . "/1", $headers, HTTPSTATUS_OK, json_encode($expectedResults)));
+        $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
+        if(password_verify($headers['password'],$array[0]['password'])){
+            unset($array[0]['password']);
+            $this->assertTrue($expectedResults == $array);
+        }
+        else
+            var_dump('passwords did not satisfy the hash');
 
     }
 }

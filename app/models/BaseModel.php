@@ -62,7 +62,10 @@ abstract class BaseModel {
     private function unpackParams($params){
         $unpackedParams = array();
         foreach ($params as $value){
-            $unpackedParams[$value['label']] = $value['value'];
+            if($value['label'] == 'password')
+                $unpackedParams[$value['label']] = password_hash($value['value'], PASSWORD_DEFAULT);
+            else
+                $unpackedParams[$value['label']] = $value['value'];
         }
 
         return $unpackedParams;
