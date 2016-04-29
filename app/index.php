@@ -83,12 +83,16 @@ $app->map ( "/search/:entity/:searchString", function ($entity = null,$searchStr
 	$action = null;
 	$parameters ["SearchingString"] = $searchString; // prepare parameters to be passed to the controller (example: ID)
 
+    $model = "MoveModel";
+    $controller  = "MoveController";
 	if ($httpMethod == "GET" && is_string( $searchString ) && is_string( $entity )) {
         switch ($entity) {
             case "pokemon" :
                 $action = ACTION_SEARCH_POKEMON;
+                $model = "PokemonModel";
+                $controller = "PokemonController";
                 break;
-            case "move" :
+            case "moves" :
                 $action = ACTION_SEARCH_MOVES;
                 break;
             default :
@@ -97,7 +101,7 @@ $app->map ( "/search/:entity/:searchString", function ($entity = null,$searchStr
 
     $responseFormat = responseFormat($app);
 
-	return new loadRunMVCComponents ( "UserModel", "UserController", $responseFormat, $action, $app, $parameters );
+	return new loadRunMVCComponents ( $model, $controller, $responseFormat, $action, $app, $parameters );
 } )->via ( "GET" );
 
 $app->map ( "/pokemon(/:id)", function ($pokemonID = null) use($app) {
@@ -197,7 +201,6 @@ class loadRunMVCComponents {
 		include_once "models/" . $modelName . ".php";
 		include_once "controllers/" . $controllerName . ".php";
 		include_once "views/" . $viewName . ".php";
-		
 		$this->model = new $modelName (); // common model
 		$this->controller = new $controllerName ( $this->model, $action, $app, $parameters );
 		$this->view = new $viewName ( $this->controller, $this->model, $app, $app->headers ); // common view

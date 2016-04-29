@@ -8,7 +8,7 @@
 require_once ("controllers/BaseController.php");
 
 class PokemonController extends BaseController{
-    public function __construct($model, $action = null, $slimApp, $parameters = null) {
+    public function __construct($model, $action = null, $slimApp, $parameters) {
         parent::__construct($model, $slimApp);
         if (! empty ( $parameters ["id"] ))
             $id = $parameters ["id"];

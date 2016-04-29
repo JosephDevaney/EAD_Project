@@ -45,11 +45,11 @@ class MoveDAO extends BaseDAO {
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM moves ";
-        $sql .= "WHERE move_name LIKE %:move_name% ";
+        $sql .= "WHERE move_name LIKE :move_name ";
         $sql .= "ORDER BY move_name ";
         $sql .= ";";
 
-        $values = $this->get_types(array('move_name'=>$str));
+        $values = $this->get_types(array('move_name'=>'%' . $str . '%'));
 
         return $this->base_search($sql, $values);
     }

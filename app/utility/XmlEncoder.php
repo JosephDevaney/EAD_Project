@@ -42,32 +42,7 @@ class XmlEncoder {
         $xml = new SimpleXMLElement('<array/>');
         array_to_xml($this->array, $xml);
         $this->xmlString = $xml->asXML();
-        //$this->xmlString  = $this->custom_encode();
     }
-
-//    private function encode() {
-//        $xml_str = "";
-//
-//        if (is_array($this->array)) {
-//            foreach ($this->array as $obj) {
-//                $xml_str .= "<Object>";
-//                $xml_str .= "\n";
-//                foreach ($obj as $key => $value) {
-//                    $xml_str .= "\t";
-//                    $xml_str .= "<" . $key . ">";
-//                    $xml_str .= $value;
-//                    $xml_str .= "</" . $key . ">";
-//                    $xml_str .= "\n";
-//                }
-//                $xml_str .= "</Object>";
-//                $xml_str .= "\n";
-//            }
-//        }
-//        else
-//            $xml_str .= $this->array;
-//        $this->xmlString = $xml_str;
-//
-//    }
 
 
 }

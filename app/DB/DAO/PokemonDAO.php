@@ -46,11 +46,11 @@ class PokemonDAO extends BaseDAO{
     public function search($str) {
         $sql = "SELECT * ";
         $sql .= "FROM pokemon ";
-        $sql .= "WHERE NAME LIKE %:name% ";
+        $sql .= "WHERE NAME LIKE :name ";
         $sql .= "ORDER BY pokemon.id ";
         $sql .= ";";
 
-        $values = $this->get_types(array('name'=>$str));
+        $values = $this->get_types(array('name'=>'%'.$str.'%'));
         return $this->base_search($sql, $values);
     }
 
