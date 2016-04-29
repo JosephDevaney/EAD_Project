@@ -73,17 +73,17 @@ class PokemonRequestTests extends UnitTestCase{
 
 
 
-//    public function testGetPokemonXml(){
-//        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
-//        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
-//        $this->xmlEncoder = new XmlEncoder($this->samplePokemon);
-//        $this->xmlEncoder->encode();
-//        $headers = $this->defaultHeaders;
-//        $headers['Accept'] = "application/xml";
-//        $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
-//
-//        $this->assertTrue($this->compare_arrays($this->samplePokemon, $array));
-//    }
+    public function testGetPokemonXml(){
+        //$this->assertFalse($this->validation->isEmailValid('darrenbritton@@hotmail.com'));
+        $this->requestTest->post($this->route, json_encode($this->samplePokemon[1]), $this->authHeaders);
+        $this->xmlEncoder = new XmlEncoder($this->samplePokemon);
+        $this->xmlEncoder->encode();
+        $headers = $this->defaultHeaders;
+        $headers['Accept'] = "application/xml";
+        $array = $this->requestTest->getDecoded($this->route, $headers, HTTPSTATUS_OK);
+        var_dump($array);
+        $this->assertTrue($this->compare_arrays($this->samplePokemon, $array["element"]));
+    }
 
     public function testUpdatePokemonJson(){
         foreach($this->samplePokemon[0] as &$value) {
